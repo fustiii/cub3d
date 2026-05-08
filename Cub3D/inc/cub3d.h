@@ -3,6 +3,7 @@
 
 #define SUCCESS 0
 #define ERROR -1
+#define MAP_DONE 2
 
 #include <unistd.h> //close, read, write
 #include <fcntl.h> //open
@@ -29,8 +30,8 @@ typedef struct	s_map
 	char	**map;      // El mapa en sí (matriz de strings)
 	int		rows;        // Filas
 	int		cols;        // Columnas
-	int		player_x;    // Posición X
 	int		player_y;    // Posición Y
+	int		player_x;    // Posición X
 	char	player_dir;  // N, S, E, W
 }			t_map;
 
@@ -64,6 +65,7 @@ int			extract_color(t_game *data, char *line);
 
 //PARSE_MAP
 int			extract_map(t_game *data, char **map);
+int			flood_fill(t_game *data);
 
 //FILE_READER
 int 		count_lines(int fd);
@@ -80,7 +82,9 @@ int			validate_color(t_game *data, char **rgb, char *token);
 
 //UTILS
 char		**ft_split(char const *str, char c);
-void    print_data(t_game *data);
+void		print_data(t_game *data);
+void		trim_newline(char *str);
+
 
 //FREE
 void    	free_array(char **array);

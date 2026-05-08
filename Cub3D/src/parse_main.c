@@ -1,12 +1,5 @@
 #include "../inc/cub3d.h"
-/*
-int is_empty(char *line)
-{
-    if (line[0] == '\0' || line[0] == '\n')
-        return (1);
-    return (0);
-}
-*/
+
 int is_empty(char *line)
 {
     int i = 0;
@@ -19,15 +12,11 @@ int process_line(char *line, t_game *data, int *ids_found, char **file_content)
 {
     t_type_id   type_id;
 
-    printf("Hola2\n");
-    (void)file_content;
     if (is_empty(line))
         return (SUCCESS);
-    printf("Hola\n");
     type_id = find_type_id(line);
     if (type_id)
     {
-        printf("Hola\n");
         if (type_id == ID_FLOOR || type_id == ID_CEILING)
         {
             if (extract_color(data, line) == ERROR)
@@ -51,9 +40,9 @@ int process_line(char *line, t_game *data, int *ids_found, char **file_content)
     {
         if (validate_identifiers(data) == ERROR) 
             return (ERROR);
-        if (extract_map(data, &line) == ERROR) // Le pasamos dirección de la linea actual
+        if (extract_map(data, file_content) == ERROR) // Le pasamos dirección de la linea actual
             return (ERROR);
-        return (SUCCESS); //! ¿Que pasa si hay más lineas despues del mapa? Gestionarlo
+        return (MAP_DONE); //! ¿Que pasa si hay más lineas despues del mapa? Gestionarlo
     }
     return (SUCCESS);
 }
@@ -63,14 +52,15 @@ int fill_data(char **file_content, t_game *data)
 {
     int i;
     int ids_found;
+    int status;
 
     i = 0;
     ids_found = 0;
     while (file_content[i])
     {
-        printf("AAA\n");
         //! Revisar si deberia leer más lineas despues de terminar con el mapa
-        if (process_line(file_content[i], data, &ids_found, file_content) == ERROR)
+        status = process_line(file_content[i], data, &ids_found, &file_content[i]);
+        if (status == ERROR || status == MAP_DONE)
             break ;
         i++;
     }
@@ -88,7 +78,11 @@ int parse(t_game *data, char *file)
         return (ERROR);
     
     if (fill_data(file_content, data) == ERROR)
+    {
+        free_array(file_content);
         return (ERROR);
+    }
+        
     
     print_data(data);
 

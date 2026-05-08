@@ -2,7 +2,12 @@
 
 void    free_all(t_game *data)
 {
-    (void)data;
+    free(data->no_path);
+    free(data->so_path);
+    free(data->we_path);
+    free(data->ea_path);
+
+    free_array(data->map.map);
 }
 
 void    free_array(char **array)

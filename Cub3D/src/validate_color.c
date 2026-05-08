@@ -21,13 +21,14 @@ static int is_str_digit(char *str)
         return (0);
     while (str[i])
     {
-        if (str[i] == '\n' && str[i + 1] == '\0')
+       if (str[i] == '\n' || str[i] == '\r' || str[i] == ' ')
             break;
-        printf("Digit-> %c\n", str[i]);
         if (str[i] < '0' || str[i] > '9')
             return (0);
         i++;
     }
+    if (i == 0)
+        return (0);
     return (1);
 }
 

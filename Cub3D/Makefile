@@ -2,7 +2,7 @@ TARGET = cub3d
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 SRCS = src/main.c \
 	src/initialize.c \
@@ -11,6 +11,7 @@ SRCS = src/main.c \
 	src/validate_color.c \
 	src/validate_identifiers.c \
 	src/parse_map.c \
+	src/flood_fill.c \
 	src/file_reader.c \
 	src/strings_operations.c \
 	src/print_data.c \

@@ -19,7 +19,7 @@ int count_lines(int fd)
                 lines++;
             i++;
         }
-        last_char = buf[i];
+        last_char = buf[bytes_read - 1];
     }
     if (last_char != '\n' && bytes_read != -1)
         lines++;
@@ -49,7 +49,7 @@ char    **file_to_array(t_game *data, char *file)
     fd = open_file(data, file);
     if (fd == ERROR)
         return (NULL);
-    file_content = malloc(sizeof(char *) * count_lines(fd));
+    file_content = malloc(sizeof(char *) * (count_lines(fd) + 1));
     close(fd);
     if (!file_content)
         return (NULL);

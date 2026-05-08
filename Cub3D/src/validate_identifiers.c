@@ -55,9 +55,9 @@ int    validate_identifiers(t_game *data)
     i = 0;
     while (i < 4)
     {
-        if (!has_extension(path[i], ".xml"))
+        if (!has_extension(path[i], ".xpm"))
         {
-            data->error_msg = "Missing extension .xml";
+            data->error_msg = "Missing extension .xpm";
             return (ERROR);
         }
         if (!can_open_file(data, path[i]))

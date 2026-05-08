@@ -41,6 +41,7 @@ int  extract_texture(t_game *data, char *line)
             return (ERROR);
         }
         //! Convertir en ft_strdup (todas)
+        trim_newline(tokens[1]);
         data->no_path = strdup(tokens[1]);
     }
     else if (strcmp(tokens[0], "SO") == 0)
@@ -50,6 +51,7 @@ int  extract_texture(t_game *data, char *line)
             data->error_msg = "Error: Type_id SO already exist";
             return (ERROR);
         }
+        trim_newline(tokens[1]);
         data->so_path = strdup(tokens[1]);
     }
     else if (strcmp(tokens[0], "WE") == 0)
@@ -59,6 +61,7 @@ int  extract_texture(t_game *data, char *line)
             data->error_msg = "Error: Type_id WE already exist";
             return (ERROR);
         }
+        trim_newline(tokens[1]);
         data->we_path = strdup(tokens[1]);
     }
     else if (strcmp(tokens[0], "EA") == 0)
@@ -68,6 +71,7 @@ int  extract_texture(t_game *data, char *line)
             data->error_msg = "Error: Type_id EA already exist";
             return (ERROR);
         }
+        trim_newline(tokens[1]);
         data->ea_path = strdup(tokens[1]);
     }
     free_array(tokens);
@@ -82,15 +86,11 @@ int  extract_color(t_game *data, char *line)
     tokens = ft_split(line, ' '); // Crea un array en el HEAP
     if (!tokens)
         return (ERROR);
-    char *raw = ft_strchr(tokens[1], '\n');
-    if (raw)
-        *raw = '7';
     rgb = ft_split(tokens[1], ',');
     if (!rgb)
         return (ERROR);
     if (validate_color(data, rgb, tokens[1]) == ERROR)
         return (ERROR);
-    printf("Hola\n");
     //! Convertir en ft_atoi (todas)
     if (strcmp(tokens[0], "F") == 0)
         data->floor_rgb = (atoi(rgb[0]) << 16 | atoi(rgb[1]) << 8 | atoi(rgb[2]));
