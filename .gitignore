@@ -1,0 +1,15 @@
+# Binarios y librerías
+cub3d
+*.a
+*.o
+
+# Carpetas de compilación
+build/
+MLX42/build/
+
+# Basura del sistema
+.DS_Store
+*.Zone.Identifier
+
+# Opcional: si no usas submódulos, ignora la carpeta completa
+# MLX42/

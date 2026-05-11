@@ -1,5 +1,32 @@
 #include "../inc/cub3d.h"
 
+static void    init_player(t_player *player)
+{
+    player->pos_y = 0.0;
+    player->pos_x = 0.0;
+    player->dir_y = 0.0;
+    player->dir_x = 0.0;
+    player->plane_y = 0.0;
+    player->plane_x = 0.0;
+}
+
+static void    init_map(t_map *map)
+{
+    map->map = NULL;
+    map->rows = 0;
+    map->cols = 0;
+    map->player_x = -1;
+    map->player_y = -1;
+    map->player_dir = -1;
+}
+
+static void    init_mlx(t_mlx *mlx)
+{
+    (void)mlx;
+    //Init
+}
+
+
 void init_data(t_game *data)
 {
     // Inicializar texturas
@@ -15,11 +42,8 @@ void init_data(t_game *data)
     // Inicializar error
     data->error_msg = NULL;
 
-    // Inicializar la sub-estructura map
-    data->map.map = NULL;
-    data->map.rows = 0;
-    data->map.cols = 0;
-    data->map.player_x = -1;
-    data->map.player_y = -1;
-    data->map.player_dir = -1;
+    // Inicializar las sub-estructuras
+    init_map(&data->map);
+    init_player(&data->player);
+    init_mlx(&data->mlx);
 }

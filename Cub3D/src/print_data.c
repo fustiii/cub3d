@@ -24,4 +24,10 @@ void    print_data(t_game *data)
     printf("Player_x-> %d\n", data->map.player_x);
     printf("Player_dir-> %c\n", data->map.player_dir);
 
+    printf("Pos_y-> %f\n", data->player.pos_y);
+    printf("Pos_x-> %f\n", data->player.pos_x);
+    printf("Dir_y-> %f\n", data->player.dir_y);
+    printf("Dir_x-> %f\n", data->player.dir_x);
+    printf("Plane_y-> %f\n", data->player.plane_y);
+    printf("Plane_x-> %f\n", data->player.plane_x);
 }

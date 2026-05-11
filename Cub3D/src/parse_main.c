@@ -69,6 +69,35 @@ int fill_data(char **file_content, t_game *data)
     return (SUCCESS);
 }
 
+void synchronize_player(t_game *data)
+{
+
+    //! Seria una buena practica poner a 0 el resto en cada if (aunque lo haga en init)
+    if (data->map.player_dir == 'N')
+    {
+        data->player.dir_y = -1.0;
+        data->player.plane_x = 0.66;
+    }
+    else if (data->map.player_dir == 'S')
+    {
+        data->player.dir_y = 1.0;
+        data->player.plane_x = -0.66;
+    }
+    else if (data->map.player_dir == 'E')
+    {
+        data->player.dir_x = 1.0;
+        data->player.plane_y = 0.66;
+    }
+    else if (data->map.player_dir == 'W')
+    {
+        data->player.dir_x = -1.0;
+        data->player.plane_y = -0.66;
+    }
+    data->player.pos_x = (double)data->map.player_x + 0.5;
+    data->player.pos_y = (double)data->map.player_y + 0.5;
+}
+
+
 int parse(t_game *data, char *file)
 {
     char        **file_content;
@@ -82,7 +111,7 @@ int parse(t_game *data, char *file)
         free_array(file_content);
         return (ERROR);
     }
-        
+    synchronize_player(data);
     
     print_data(data);
 

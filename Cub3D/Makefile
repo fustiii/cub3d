@@ -1,8 +1,12 @@
 TARGET = cub3d
-
 CC = cc
-
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+
+# --- MLX42 CONFIGURATION ---
+MLX_PATH = ./MLX42
+MLX_LIB  = $(MLX_PATH)/build/libmlx42.a
+# Flags para Linux/WSL: Requiere GLFW y dependencias gráficas
+MLX_FLAGS = -L$(MLX_PATH)/build -lmlx42 -lglfw -ldl -pthread -lm
 
 SRCS = src/main.c \
 	src/initialize.c \
@@ -17,23 +21,32 @@ SRCS = src/main.c \
 	src/print_data.c \
 	src/split.c \
 	src/free.c \
+	src/functions_mlx.c \
 	src/gnl/get_next_line.c \
 	src/gnl/get_next_line_utils.c
 
 OBJ = $(SRCS:.c=.o)
 
-INC     = -I ./inc
+INC = -I ./inc -I $(MLX_PATH)/include
 
-all: $(TARGET)
+all: $(MLX_LIB) $(TARGET)
+
+# Regla para compilar la MLX42 usando CMake si no existe
+$(MLX_LIB):
+	@if [ ! -d "$(MLX_PATH)/build" ]; then \
+		cmake $(MLX_PATH) -B $(MLX_PATH)/build; \
+	fi
+	@cmake --build $(MLX_PATH)/build -j4
 
 $(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(TARGET)
+	$(CC) $(CFLAGS) $(OBJ) $(MLX_FLAGS) -o $(TARGET)
 
-%.o: %.c Makefile cub3d.h get_next_line.h
+%.o: %.c Makefile inc/cub3d.h inc/get_next_line.h
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
+	@if [ -d "$(MLX_PATH)/build" ]; then rm -rf $(MLX_PATH)/build; fi
 
 fclean: clean
 	rm -f $(TARGET)

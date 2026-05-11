@@ -5,6 +5,9 @@
 #define ERROR -1
 #define MAP_DONE 2
 
+#define WIDTH 1080
+#define HEIGHT 720
+
 #include <unistd.h> //close, read, write
 #include <fcntl.h> //open
 #include <errno.h> //errno
@@ -13,6 +16,8 @@
 #include <string.h> //strerror
 #include <sys/time.h> //gettimeofday
 #include "get_next_line.h" // para gnl
+#include "MLX42/MLX42.h" // para mlx
+
 
 typedef enum
 {
@@ -35,17 +40,36 @@ typedef struct	s_map
 	char	player_dir;  // N, S, E, W
 }			t_map;
 
+typedef struct	s_player
+{
+	double	pos_y;    // Posición real
+	double	pos_x;    // Posición real
+	double	dir_y;    // Vector de dirección
+	double	dir_x;    // Vector de dirección
+	double	plane_y;  // Plano cámara
+	double	plane_x;  // Plano cámara
+}			t_player;
+
+typedef struct	s_mlx
+{
+	mlx_t			*mlx;    // Puntero a la ventana
+	mlx_image_t		*img;    // Puntero a la imagen
+	mlx_texture_t	*tex[4]; // Punteros a las texturas
+}					t_mlx;
+
 typedef struct	s_game
 {
-	char	*no_path;    // Ruta textura Norte
-	char	*so_path;    // Ruta textura Sur
-	char	*we_path;    // Ruta textura Oeste
-	char	*ea_path;    // Ruta textura Este
-	int		floor_rgb; // R, G, B suelo
-	int		ceil_rgb;  // R, G, B techo
-	t_map	map;         // Estructura del mapa
-	char	*error_msg;
-}			t_game;
+	char		*no_path;    // Ruta textura Norte
+	char		*so_path;    // Ruta textura Sur
+	char		*we_path;    // Ruta textura Oeste
+	char		*ea_path;    // Ruta textura Este
+	uint32_t	floor_rgb;   // R, G, B suelo
+	uint32_t	ceil_rgb;    // R, G, B techo
+	char		*error_msg;
+	t_map		map;         // Estructura del mapa
+	t_player	player;      // Estructura del jugador
+	t_mlx		mlx;         // Estructura de mlx
+}				t_game;
 
 
 
