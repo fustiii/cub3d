@@ -19,29 +19,29 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    //Inicializar las estructuras
+    // Inicializar las estructuras
     init_data(&data);
 
-    //Leer linea con gnl y parsear info
+    // Leer linea con gnl y parsear info
     if (parse(&data, argv[1]) == ERROR)
         exit_error(&data);
 
+    // Inicialiazmos la nueva ventana
     data.mlx.mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true);
+    // Creamos una imagen (donde pintaremos los pixeles)
     data.mlx.img = mlx_new_image(data.mlx.mlx , WIDTH, HEIGHT);
     if (!data.mlx.img)
         exit(1);
+    // Ponemos la imagen en la ventana
     mlx_image_to_window(data.mlx.mlx, data.mlx.img, 0, 0);
     
-    data.mlx.texture[0] = mlx_load_png(data.no_path);
-    data.mlx.texture[1] = mlx_load_png(data.so_path);
-    data.mlx.texture[2] = mlx_load_png(data.we_path);
-    data.mlx.texture[3] = mlx_load_png(data.ea_path);
+    //Cargamos las texturas
+    load_textures(&data);
 
-    if (!data.mlx.tex[0] || !data.mlx.tex[1] || !data.mlx.tex[2] || !data.mlx.tex[3])
-        exit_error(&data);
-
+    // Tareas que vamos a ejecutar
     mlx_loop_hook(data.mlx.mlx, &hook_render, &data);
 
+    // Registra cuando pulsamos alguna tecla
     mlx_key_hook(data.mlx.mlx, &hook_key, &data);
 
 

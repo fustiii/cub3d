@@ -54,7 +54,7 @@ typedef struct	s_mlx
 {
 	mlx_t			*mlx;    // Puntero a la ventana
 	mlx_image_t		*img;    // Puntero a la imagen
-	mlx_texture_t	*tex[4]; // Punteros a las texturas
+	mlx_texture_t	*texture[4]; // Punteros a las texturas
 }					t_mlx;
 
 typedef struct	s_game
@@ -102,8 +102,10 @@ int 		validate_map(t_game *data);
 int			validate_color(t_game *data, char **rgb, char *token);
 
 
-
-
+//FUNCTIONS MLX
+void		hook_render(void* param);
+void		hook_key(mlx_key_data_t keydata, void* param);
+void		handle_input(t_game *data);
 //UTILS
 char		**ft_split(char const *str, char c);
 void		print_data(t_game *data);
