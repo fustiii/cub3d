@@ -31,8 +31,18 @@ INC = -I ./inc -I $(MLX_PATH)/include
 
 all: $(MLX_LIB) $(TARGET)
 
-# Regla para compilar la MLX42 usando CMake si no existe
+# --- GESTIÓN DE LA LIBRERÍA MLX42 ---
+# Esta regla automatiza la preparación de la MLX42 como submódulo de Git:
+# 1. Verifica si el submódulo está vacío (buscando CMakeLists.txt). 
+#    Si lo está, ejecuta 'git submodule update --init' para descargarlo automáticamente.
+# 2. Comprueba si existe la carpeta 'build'. Si no, lanza 'cmake' para configurar 
+#    los archivos de compilación según el sistema operativo.
+# 3. Compila la librería con 4 hilos (-j4) para generar el archivo .a final.
 $(MLX_LIB):
+	@if [ ! -f "$(MLX_PATH)/CMakeLists.txt" ]; then \
+		echo "Submódulo no encontrado. Inicializando..."; \
+		git submodule update --init --recursive; \
+	fi
 	@if [ ! -d "$(MLX_PATH)/build" ]; then \
 		cmake $(MLX_PATH) -B $(MLX_PATH)/build; \
 	fi
@@ -50,6 +60,11 @@ clean:
 
 fclean: clean
 	rm -f $(TARGET)
+
+clean_mlx:
+	@if [ -d "$(MLX_PATH)/build" ]; then rm -rf $(MLX_PATH)/build; fi
+
+clean_all: fclean clean_mlx
 
 re: fclean all
 
