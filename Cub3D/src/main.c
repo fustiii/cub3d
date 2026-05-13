@@ -35,15 +35,17 @@ int main(int argc, char **argv)
     // Ponemos la imagen en la ventana
     mlx_image_to_window(data.mlx.mlx, data.mlx.img, 0, 0);
     
+    /*
     //Cargamos las texturas
     load_textures(&data);
-
+    */
     // Tareas que vamos a ejecutar
-    mlx_loop_hook(data.mlx.mlx, &hook_render, &data);
+    mlx_loop_hook(data.mlx.mlx, &render_frame, &data);
 
+    
     // Registra cuando pulsamos alguna tecla
     mlx_key_hook(data.mlx.mlx, &hook_key, &data);
-
+    
 
     mlx_loop(data.mlx.mlx);
     mlx_terminate(data.mlx.mlx);

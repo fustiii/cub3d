@@ -22,6 +22,7 @@ SRCS = src/main.c \
 	src/split.c \
 	src/free.c \
 	src/functions_mlx.c \
+	src/raycaster.c \
 	src/gnl/get_next_line.c \
 	src/gnl/get_next_line_utils.c
 
@@ -56,7 +57,6 @@ $(TARGET): $(OBJ)
 
 clean:
 	rm -f $(OBJ)
-	@if [ -d "$(MLX_PATH)/build" ]; then rm -rf $(MLX_PATH)/build; fi
 
 fclean: clean
 	rm -f $(TARGET)
@@ -68,4 +68,4 @@ clean_all: fclean clean_mlx
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean clean_mlx deepclean re

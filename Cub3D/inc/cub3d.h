@@ -8,6 +8,9 @@
 #define WIDTH 1080
 #define HEIGHT 720
 
+#define TILE_SIZE 32
+#define PLAYER_SIZE 6
+
 #include <unistd.h> //close, read, write
 #include <fcntl.h> //open
 #include <errno.h> //errno
@@ -54,7 +57,7 @@ typedef struct	s_mlx
 {
 	mlx_t			*mlx;    // Puntero a la ventana
 	mlx_image_t		*img;    // Puntero a la imagen
-	mlx_texture_t	*texture[4]; // Punteros a las texturas
+	xpm_t			*texture[4]; // Punteros a las texturas
 }					t_mlx;
 
 typedef struct	s_game
@@ -103,7 +106,8 @@ int			validate_color(t_game *data, char **rgb, char *token);
 
 
 //FUNCTIONS MLX
-void		hook_render(void* param);
+void		load_textures(t_game *data);
+void		render_frame(void* param);
 void		hook_key(mlx_key_data_t keydata, void* param);
 void		handle_input(t_game *data);
 //UTILS

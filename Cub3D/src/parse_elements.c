@@ -93,9 +93,9 @@ int  extract_color(t_game *data, char *line)
         return (ERROR);
     //! Convertir en ft_atoi (todas)
     if (strcmp(tokens[0], "F") == 0)
-        data->floor_rgb = (atoi(rgb[0]) << 16 | atoi(rgb[1]) << 8 | atoi(rgb[2]));
+        data->floor_rgb = (atoi(rgb[0]) << 24 | atoi(rgb[1]) << 16 | atoi(rgb[2]) << 8 | 0xFF);
     else if (strcmp(tokens[0], "C") == 0)
-        data->ceil_rgb = (atoi(rgb[0]) << 16 | atoi(rgb[1]) << 8 | atoi(rgb[2]));
+        data->ceil_rgb = (atoi(rgb[0]) << 24 | atoi(rgb[1]) << 16 | atoi(rgb[2]) << 8 | 0xFF);
     
     free_array(rgb);
     free_array(tokens);
