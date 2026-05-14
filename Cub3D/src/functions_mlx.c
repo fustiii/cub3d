@@ -120,39 +120,31 @@ para que el jugador se detenga en 7.2 y nunca llegue a tocar el 7.0.
 */
 int is_not_wall(char **map, double y, double x)
 {
-    if (map[(int)y][(int)x] == '1')
+
+    if (map[(int)(y + BUFFER)][(int)x] == '1' ||
+        map[(int)(y - BUFFER)][(int)x] == '1' ||
+        map[(int)y][(int)(x + BUFFER)] == '1' ||
+        map[(int)y][(int)(x - BUFFER)] == '1')
         return (0);
     return (1);
 }
 
 void    handle_input(t_game *data)
 {
+    double next_x = data->player.pos_x;
+    double next_y = data->player.pos_y;
+
     if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_W))
-    {
-        printf("Delante\n");
-        if (is_not_wall(data->map.map, data->player.pos_y - 0.25, data->player.pos_x))
-            data->player.pos_y = data->player.pos_y - 0.25;
-        // player_move_forward(data) podria envolver el codigo
-    }
-    if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_A))
-    {
-        printf("Izquierda\n");
-        if (is_not_wall(data->map.map, data->player.pos_y, data->player.pos_x - 0.25))
-            data->player.pos_x = data->player.pos_x - 0.25;
-        // player_rotate_left(cub); [cite: 118, 119]
-    }
+        next_y -= SPEED;
     if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_S))
-    {
-        printf("Atras\n");
-        if (is_not_wall(data->map.map, data->player.pos_y + 0.25, data->player.pos_x))
-            data->player.pos_y = data->player.pos_y + 0.25;
-        // player_move_backward(cub);
-    }
+        next_y += SPEED;
+    if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_A))
+        next_x -= SPEED;
     if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_D))
-    {
-        printf("Derecha\n");
-        if (is_not_wall(data->map.map, data->player.pos_y, data->player.pos_x + 0.25))
-            data->player.pos_x = data->player.pos_x + 0.25;
-        // player_rotate_right(cub); [cite: 118, 119]
-    }
+        next_x += SPEED;
+
+    if (is_not_wall(data->map.map, data->player.pos_y, next_x))
+        data->player.pos_x = next_x;
+    if (is_not_wall(data->map.map, next_y, data->player.pos_x))
+        data->player.pos_y = next_y;
 }

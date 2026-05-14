@@ -5,11 +5,15 @@
 #define ERROR -1
 #define MAP_DONE 2
 
-#define WIDTH 1080
-#define HEIGHT 720
+#define WIDTH 1500
+#define HEIGHT 1500
 
 #define TILE_SIZE 32
-#define PLAYER_SIZE 6
+#define PLAYER_SIZE 4
+#define BUFFER 0.1 //Para comprobar su hitbox
+// Igual al tamanyo visual del jugador:
+// BUFFER = (PLAYER_SIZE / 2.0) / TILE_SIZE
+#define SPEED 0.05 //Velocidad de movimiento
 
 #include <unistd.h> //close, read, write
 #include <fcntl.h> //open
@@ -32,6 +36,25 @@ typedef enum
     ID_FLOOR,	// F
     ID_CEILING	// C
 }	t_type_id;
+
+typedef struct	s_ray
+{
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	double	delta_dist_x;
+    double	delta_dist_y;
+    int		step_x;
+	int		step_y;
+	int		side;
+    double	side_dist_x;
+    double	side_dist_y;
+	int		hit;
+	double	perp_wall_dist;
+	int		map_x;
+	int		map_y;
+
+}			t_ray
 
 typedef struct	s_map
 {

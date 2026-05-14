@@ -40,6 +40,7 @@ int process_line(char *line, t_game *data, int *ids_found, char **file_content)
     {
         if (validate_identifiers(data) == ERROR) 
             return (ERROR);
+        printf("Hola\n");
         if (extract_map(data, file_content) == ERROR) // Le pasamos dirección de la linea actual
             return (ERROR);
         return (MAP_DONE); //! ¿Que pasa si hay más lineas despues del mapa? Gestionarlo
@@ -64,7 +65,7 @@ int fill_data(char **file_content, t_game *data)
             break ;
         i++;
     }
-    if (validate_map(data) == ERROR)
+    if (status == MAP_DONE && validate_map(data) == ERROR)
         return (ERROR);
     return (SUCCESS);
 }

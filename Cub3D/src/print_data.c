@@ -12,7 +12,7 @@ void    print_data(t_game *data)
     printf("C-> %d\n", data->ceil_rgb);
 
     int i = 0;
-    while (data->map.map[i] != NULL)
+    while (data->map.map != NULL && data->map.map[i] != NULL)
     {
         printf("%s\n", data->map.map[i]);
         i++;

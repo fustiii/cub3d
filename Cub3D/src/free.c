@@ -24,3 +24,6 @@ void    free_array(char **array)
     }
     free(array);
 }
+
+// Llamar a mlx_delete_texture()
+// Y revisar que mas deberia borrar...
