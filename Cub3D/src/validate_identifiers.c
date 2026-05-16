@@ -55,9 +55,9 @@ int    validate_identifiers(t_game *data)
     i = 0;
     while (i < 4)
     {
-        if (!has_extension(path[i], ".xpm"))
+        if (!has_extension(path[i], ".png"))
         {
-            data->error_msg = "Missing extension .xpm";
+            data->error_msg = "Missing extension .png";
             return (ERROR);
         }
         if (!can_open_file(data, path[i]))

@@ -2,14 +2,26 @@
 
 void    load_textures(t_game *data)
 {
-    data->mlx.texture[0] = mlx_load_xpm42(data->no_path);
-    data->mlx.texture[1] = mlx_load_xpm42(data->so_path);
-    data->mlx.texture[2] = mlx_load_xpm42(data->we_path);
-    data->mlx.texture[3] = mlx_load_xpm42(data->ea_path);
-    if (!data->mlx.texture[0] || !data->mlx.texture[1] ||
-            !data->mlx.texture[2] || !data->mlx.texture[3])
-        exit(1);
-        //exit_error(&data);
+    int i;
+    data->mlx.texture[0] = mlx_load_png(data->no_path);
+    data->mlx.texture[1] = mlx_load_png(data->so_path);
+    data->mlx.texture[2] = mlx_load_png(data->we_path);
+    data->mlx.texture[3] = mlx_load_png(data->ea_path);
+    {
+        if (!data->mlx.texture[0] || !data->mlx.texture[1] ||
+               !data->mlx.texture[2] || !data->mlx.texture[3])
+        {
+            i = 0;
+            while (i < 4)
+            {
+                //Mirar como printar error personalizado
+                //printf("Error: No se pudo cargar la textura EA (Ruta: %s)\n", data->ea_path);
+                exit(1);
+                //exit_error(&data);
+                i++;
+            }
+        }
+    }
 }
 
 void    draw_square(mlx_image_t *img, uint32_t x, uint32_t y, uint32_t color)
@@ -36,7 +48,7 @@ void    update_minimap(void* param)
     uint32_t x;
     uint32_t y;
 
-    // 1. Dibujar Suelo y Techo (Background) [cite: 116]
+    // 1. Dibujar Suelo y Techo (Background)
     y = 0;
     while (data->map.map[y])
     {

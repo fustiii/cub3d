@@ -8,6 +8,20 @@ void    free_all(t_game *data)
     free(data->ea_path);
 
     free_array(data->map.map);
+    //Miraro esto y lo que recibo en free textures por si estan bien los punteros
+    free_textures(&data->mlx);
+}
+
+void    free_textures(t_mlx *mlx)
+{
+    if (mlx->texture[0])
+        mlx_delete_texture(mlx->texture[0]);
+    if (mlx->texture[1])
+        mlx_delete_texture(mlx->texture[1]);
+    if (mlx->texture[2])
+        mlx_delete_texture(mlx->texture[2]);
+    if (mlx->texture[3])
+        mlx_delete_texture(mlx->texture[3]);
 }
 
 void    free_array(char **array)

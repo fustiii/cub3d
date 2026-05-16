@@ -54,7 +54,7 @@ typedef struct	s_ray
 	int		map_x;
 	int		map_y;
 
-}			t_ray
+}			t_ray;
 
 typedef struct	s_map
 {
@@ -80,7 +80,7 @@ typedef struct	s_mlx
 {
 	mlx_t			*mlx;    // Puntero a la ventana
 	mlx_image_t		*img;    // Puntero a la imagen
-	xpm_t			*texture[4]; // Punteros a las texturas
+	mlx_texture_t	*texture[4]; // Punteros a las texturas
 }					t_mlx;
 
 typedef struct	s_game
@@ -142,7 +142,7 @@ void		trim_newline(char *str);
 //FREE
 void    	free_array(char **array);
 void    	free_all(t_game *data);
-
+void		free_textures(t_mlx *mlx);
 
 
 #endif
