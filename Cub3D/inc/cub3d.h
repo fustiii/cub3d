@@ -9,11 +9,12 @@
 #define HEIGHT 1500
 
 #define TILE_SIZE 32
-#define PLAYER_SIZE 4
-#define BUFFER 0.1 //Para comprobar su hitbox
+#define PLAYER_SIZE 8
+#define BUFFER 0.2 //Para comprobar su hitbox
 // Igual al tamanyo visual del jugador:
 // BUFFER = (PLAYER_SIZE / 2.0) / TILE_SIZE
 #define SPEED 0.05 //Velocidad de movimiento
+#define ROT_SPEED 0.03
 
 #include <unistd.h> //close, read, write
 #include <fcntl.h> //open
@@ -22,6 +23,7 @@
 #include <stdlib.h> //malloc, free, exit
 #include <string.h> //strerror
 #include <sys/time.h> //gettimeofday
+#include <math.h> // para las funciones matematicas
 #include "get_next_line.h" // para gnl
 #include "MLX42/MLX42.h" // para mlx
 
@@ -37,6 +39,7 @@ typedef enum
     ID_CEILING	// C
 }	t_type_id;
 
+// Para calcular distancias
 typedef struct	s_ray
 {
 	double	camera_x;
@@ -56,16 +59,7 @@ typedef struct	s_ray
 
 }			t_ray;
 
-typedef struct	s_map
-{
-	char	**map;      // El mapa en sí (matriz de strings)
-	int		rows;        // Filas
-	int		cols;        // Columnas
-	int		player_y;    // Posición Y
-	int		player_x;    // Posición X
-	char	player_dir;  // N, S, E, W
-}			t_map;
-
+// Posición física del jugador en el mapa
 typedef struct	s_player
 {
 	double	pos_y;    // Posición real
@@ -75,6 +69,16 @@ typedef struct	s_player
 	double	plane_y;  // Plano cámara (FOV = field of view)
 	double	plane_x;  // Plano cámara
 }			t_player;
+
+typedef struct	s_map
+{
+	char	**map;      // El mapa en sí (matriz de strings)
+	int		rows;        // Filas
+	int		cols;        // Columnas
+	int		player_y;    // Posición Y
+	int		player_x;    // Posición X
+	char	player_dir;  // N, S, E, W
+}			t_map;
 
 typedef struct	s_mlx
 {
