@@ -72,7 +72,7 @@ typedef struct	s_player
 	double	pos_x;    // Posición real
 	double	dir_y;    // Vector de dirección
 	double	dir_x;    // Vector de dirección
-	double	plane_y;  // Plano cámara
+	double	plane_y;  // Plano cámara (FOV = field of view)
 	double	plane_x;  // Plano cámara
 }			t_player;
 

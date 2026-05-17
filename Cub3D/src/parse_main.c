@@ -72,7 +72,6 @@ int fill_data(char **file_content, t_game *data)
 
 void synchronize_player(t_game *data)
 {
-
     //! Seria una buena practica poner a 0 el resto en cada if (aunque lo haga en init)
     if (data->map.player_dir == 'N')
     {
