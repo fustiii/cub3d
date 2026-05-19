@@ -24,7 +24,7 @@ void    load_textures(t_game *data)
     }
 }
 
-void    draw_square(mlx_image_t *img, uint32_t x, uint32_t y, uint32_t color)
+void    draw_square(mlx_image_t *minimap, uint32_t x, uint32_t y, uint32_t color)
 {
     uint32_t i;
     uint32_t j;
@@ -35,14 +35,15 @@ void    draw_square(mlx_image_t *img, uint32_t x, uint32_t y, uint32_t color)
         i = 0;
         while (i < TILE_SIZE)
         {
-            mlx_put_pixel(img, i + x, j + y, color);
+            mlx_put_pixel(minimap, i + x, j + y, color);
             i++;
         }
         j++;
     }
 }
 
-void    draw_triangle(mlx_image_t *img, uint32_t x, uint32_t y, uint32_t color)
+//! No la estoy utilizando
+void    draw_triangle(mlx_image_t *minimap, uint32_t x, uint32_t y, uint32_t color)
 {
     uint32_t i;
     uint32_t j;
@@ -54,7 +55,7 @@ void    draw_triangle(mlx_image_t *img, uint32_t x, uint32_t y, uint32_t color)
         // Al hacer que i dependa de j, cada fila dibuja un píxel más que la anterior
         while (i <= j) 
         {
-            mlx_put_pixel(img, i + x, j + y, color);
+            mlx_put_pixel(minimap, i + x, j + y, color);
             i++;
         }
         j++;
@@ -67,7 +68,6 @@ void    update_minimap(void* param)
     uint32_t x;
     uint32_t y;
 
-    // 1. Dibujar Suelo y Techo (Background)
     y = 0;
     while (data->map.map[y])
     {
@@ -75,19 +75,14 @@ void    update_minimap(void* param)
         while (data->map.map[y][x])
         {
             if (data->map.map[y][x] == '1')
-                draw_square(data->mlx.img, x * TILE_SIZE, y * TILE_SIZE, data->ceil_rgb);
+                draw_square(data->mlx.minimap, x * TILE_SIZE, y * TILE_SIZE, 0x00FF00FF);
             else
-                draw_square(data->mlx.img, x * TILE_SIZE, y * TILE_SIZE, data->floor_rgb);
+                draw_square(data->mlx.minimap, x * TILE_SIZE, y * TILE_SIZE, 0xFDFB23FC);
             x++;
         }
         y++;
     }
 
-    // 2. Aquí tu compañera llamará a su función:
-    // raycasting_loop(data);
-
-    // 3. Manejo de movimiento fluido 
-    // handle_input(data);
 }
 
 /* He actualizado update player para que en el minimapa se muestre un
@@ -107,7 +102,7 @@ void draw_line(t_game *data, int x0, int y0, int x1, int y1, uint32_t color)
     {
         // Pintamos el píxel en la imagen del juego
         // NOTA: Cambia 'img' si en tu t_mlx se llama diferente
-        mlx_put_pixel(data->mlx.img, x0, y0, color);
+        mlx_put_pixel(data->mlx.minimap, x0, y0, color);
         
         if (x0 == x1 && y0 == y1)
             break;
@@ -186,15 +181,49 @@ void    update_player(t_game *data)
     }
 }
 */
+void    paint_background(t_game *data)
+{
+    int y;
+    int x;
+
+    y = 0;
+    while (y < HEIGHT / 2)
+    {
+        x = 0;
+        while (x < WIDTH)
+        {
+            mlx_put_pixel(data->mlx.img, x, y, data->ceil_rgb);
+            x++;
+        }
+        y++;
+    }
+    while (y < HEIGHT)
+    {
+        x = 0;
+        while (x < WIDTH)
+        {
+            mlx_put_pixel(data->mlx.img, x, y, data->floor_rgb);
+            x++;
+        }
+        y++;
+    }
+}
+
 void    render_frame(void *param)
 {
     t_game   *data = (t_game*)param;
-    
+
+    // 1. Dibujar Suelo y Techo (Background) + minimapa
+    paint_background(data);
     update_minimap(data);
     update_player(data);
-    // 1. Dibujar Suelo y Techo (Background)
-    // 2. Ejecutar Raycasting
-    // 3. Pintar en cub->screen usando mlx_put_pixel
+
+    // 2. Aquí tu compañera llamará a su función:
+    // raycasting_loop(data);
+    init_cast_ray(data);
+
+    // 3. Manejo de movimiento fluido 
+    handle_input(data);
 }
 
 void    hook_key(mlx_key_data_t keydata, void *param)
@@ -203,7 +232,6 @@ void    hook_key(mlx_key_data_t keydata, void *param)
 
     if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
         mlx_close_window(data->mlx.mlx);
-    handle_input(data);
 }
 
 /*
@@ -270,6 +298,16 @@ void handle_input(t_game *data)
         next_x -= data->player.dir_x * SPEED;
         next_y -= data->player.dir_y * SPEED;
     }
+    if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_A))
+    {
+        next_x += data->player.dir_y * SPEED;
+        next_y -= data->player.dir_x * SPEED;
+    }
+    if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_D))
+    {
+        next_x -= data->player.dir_y * SPEED;
+        next_y += data->player.dir_x * SPEED;
+    }
 
     // Comprobación de colisiones antes de aplicar el movimiento
     if (is_not_wall(data->map.map, data->player.pos_y, next_x))
@@ -278,7 +316,7 @@ void handle_input(t_game *data)
         data->player.pos_y = next_y;
 
     // Rotar camara a la derecha
-    if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_D))
+    if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_RIGHT))
     {
         // Rotamos el vector de dirección
         old_dir_x = data->player.dir_x;
@@ -292,7 +330,7 @@ void handle_input(t_game *data)
     }
 
     // Rotar camara a la izquierda
-    if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_A))
+    if (mlx_is_key_down(data->mlx.mlx, MLX_KEY_LEFT))
     {
         // Para girar al lado contrario, invertimos los signos que multiplican al sin()
         old_dir_x = data->player.dir_x;

@@ -23,6 +23,7 @@ SRCS = src/main.c \
 	src/free.c \
 	src/functions_mlx.c \
 	src/raycaster.c \
+	src/raycaster_aux.c \
 	src/gnl/get_next_line.c \
 	src/gnl/get_next_line_utils.c
 

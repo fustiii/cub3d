@@ -31,10 +31,20 @@ int main(int argc, char **argv)
     // Creamos una imagen (donde pintaremos los pixeles)
     data.mlx.img = mlx_new_image(data.mlx.mlx , WIDTH, HEIGHT);
     if (!data.mlx.img)
+    {
+        mlx_terminate(data.mlx.mlx);
         exit(1);
+    }
+    data.mlx.minimap = mlx_new_image(data.mlx.mlx , MINIMAP_WIDTH, MINIMAP_HEIGHT);
+    if (!data.mlx.minimap)
+    {
+        mlx_delete_image(data.mlx.mlx, data.mlx.img);
+        mlx_terminate(data.mlx.mlx);
+        exit(1);
+    }
     // Ponemos la imagen en la ventana
     mlx_image_to_window(data.mlx.mlx, data.mlx.img, 0, 0);
-    
+    mlx_image_to_window(data.mlx.mlx, data.mlx.minimap, 0, 0);
     
     //Cargamos las texturas
     load_textures(&data);
@@ -48,6 +58,9 @@ int main(int argc, char **argv)
     
 
     mlx_loop(data.mlx.mlx);
+
+    mlx_delete_image(data.mlx.mlx, data.mlx.img);
+    mlx_delete_image(data.mlx.mlx, data.mlx.minimap);
     mlx_terminate(data.mlx.mlx);
 
     free_all(&data);

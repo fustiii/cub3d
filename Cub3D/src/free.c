@@ -39,5 +39,5 @@ void    free_array(char **array)
     free(array);
 }
 
-// Llamar a mlx_delete_texture()
-// Y revisar que mas deberia borrar...
+void mlx_delete_texture(mlx_texture_t* texture)
+void mlx_delete_image(mlx_t* mlx, mlx_image_t* image)

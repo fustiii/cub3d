@@ -6,15 +6,18 @@
 #define MAP_DONE 2
 
 #define WIDTH 1500
-#define HEIGHT 1500
+#define HEIGHT 1000
+#define MINIMAP_WIDTH 600
+#define MINIMAP_HEIGHT 800
 
-#define TILE_SIZE 32
+#define TILE_SIZE 16
 #define PLAYER_SIZE 8
 #define BUFFER 0.2 //Para comprobar su hitbox
 // Igual al tamanyo visual del jugador:
 // BUFFER = (PLAYER_SIZE / 2.0) / TILE_SIZE
 #define SPEED 0.05 //Velocidad de movimiento
-#define ROT_SPEED 0.03
+#define ROT_SPEED 0.06 // Velocidad de la rotación
+// Que realmente seria el angulo que queremos rotar el vector cada vez
 
 #include <unistd.h> //close, read, write
 #include <fcntl.h> //open
@@ -52,11 +55,14 @@ typedef struct	s_ray
 	int		side;
     double	side_dist_x;
     double	side_dist_y;
-	int		hit;
+	int		hit_wall;
 	double	perp_wall_dist;
 	int		map_x;
 	int		map_y;
-
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	double	wall_x;
 }			t_ray;
 
 // Posición física del jugador en el mapa
@@ -82,8 +88,9 @@ typedef struct	s_map
 
 typedef struct	s_mlx
 {
-	mlx_t			*mlx;    // Puntero a la ventana
-	mlx_image_t		*img;    // Puntero a la imagen
+	mlx_t			*mlx;        // Puntero a la ventana
+	mlx_image_t		*img;        // Puntero a la imagen
+	mlx_image_t		*minimap;    // Puntero al minimapa
 	mlx_texture_t	*texture[4]; // Punteros a las texturas
 }					t_mlx;
 
@@ -142,11 +149,18 @@ char		**ft_split(char const *str, char c);
 void		print_data(t_game *data);
 void		trim_newline(char *str);
 
-
 //FREE
 void    	free_array(char **array);
 void    	free_all(t_game *data);
 void		free_textures(t_mlx *mlx);
 
+//RAYCASTER
+void		init_cast_ray(t_game *data);
+
+//RAYCASTER AUX
+double		ft_fabs(double value);
+void		calc_perp_distance(t_ray *ray);
+void		calc_screen_coordinates(t_ray *ray);
+void		calc_texture_impact(t_player *player, t_ray *ray);
 
 #endif
