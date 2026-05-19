@@ -24,21 +24,12 @@ static int  can_open_file(t_game *data, char *path)
     if (fd == -1)
     {
         if (errno == ENOENT)
-        {
             data->error_msg = "Error: The file does not exist";
-            return (0);
-        }
         else if (errno == EACCES)
-        {
             data->error_msg = "Error: You do not have read permissions";
-            return (0);
-        }
         else
-        {
             data->error_msg = "Unexpected error";
-            //printf("Unexpected error (%d): %s\n", errno, strerror(errno));
-            return (0);
-        }
+        return (0);
     }
     close(fd);
     return (1);

@@ -21,9 +21,14 @@ SRCS = src/main.c \
 	src/print_data.c \
 	src/split.c \
 	src/free.c \
-	src/functions_mlx.c \
+	src/game_loop.c \
+	src/textures.c \
+	src/minimap_utils.c \
+	src/draw_functions.c \
+	src/handle_input.c \
 	src/raycaster.c \
 	src/raycaster_aux.c \
+	src/draw_walls.c \
 	src/gnl/get_next_line.c \
 	src/gnl/get_next_line_utils.c
 

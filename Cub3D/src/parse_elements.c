@@ -38,6 +38,7 @@ int  extract_texture(t_game *data, char *line)
         if (data->no_path != NULL)
         {
             data->error_msg = "Error: Type_id NO already exist";
+            free_array(tokens);
             return (ERROR);
         }
         //! Convertir en ft_strdup (todas)
@@ -49,6 +50,7 @@ int  extract_texture(t_game *data, char *line)
         if (data->so_path != NULL)
         {
             data->error_msg = "Error: Type_id SO already exist";
+            free_array(tokens);
             return (ERROR);
         }
         trim_newline(tokens[1]);
@@ -59,6 +61,7 @@ int  extract_texture(t_game *data, char *line)
         if (data->we_path != NULL)
         {
             data->error_msg = "Error: Type_id WE already exist";
+            free_array(tokens);
             return (ERROR);
         }
         trim_newline(tokens[1]);
@@ -69,6 +72,7 @@ int  extract_texture(t_game *data, char *line)
         if (data->ea_path != NULL)
         {
             data->error_msg = "Error: Type_id EA already exist";
+            free_array(tokens);
             return (ERROR);
         }
         trim_newline(tokens[1]);
@@ -88,9 +92,16 @@ int  extract_color(t_game *data, char *line)
         return (ERROR);
     rgb = ft_split(tokens[1], ',');
     if (!rgb)
+    {
+        free_array(tokens);
         return (ERROR);
+    }
     if (validate_color(data, rgb, tokens[1]) == ERROR)
+    {
+        free_array(rgb);
+        free_array(tokens);
         return (ERROR);
+    }
     //! Convertir en ft_atoi (todas)
     if (strcmp(tokens[0], "F") == 0)
         data->floor_rgb = (atoi(rgb[0]) << 24 | atoi(rgb[1]) << 16 | atoi(rgb[2]) << 8 | 0xFF);

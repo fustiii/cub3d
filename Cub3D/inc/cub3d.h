@@ -42,6 +42,23 @@ typedef enum
     ID_CEILING	// C
 }	t_type_id;
 
+// Coordenadas update jugador en minimapa
+typedef struct s_point
+{
+    int x;
+    int y;
+}   t_point;
+
+// Variables del algoritmo de Bresenham
+typedef struct s_bres
+{
+    int dx;
+    int sx;
+    int dy;
+    int sy;
+    int err;
+}   t_bres;
+
 // Para calcular distancias
 typedef struct	s_ray
 {
@@ -140,10 +157,19 @@ int			validate_color(t_game *data, char **rgb, char *token);
 
 
 //FUNCTIONS MLX
-void		load_textures(t_game *data);
+int			load_textures(t_game *data);
 void		render_frame(void* param);
 void		hook_key(mlx_key_data_t keydata, void* param);
 void		handle_input(t_game *data);
+
+//PAINT SCREEN
+void		update_minimap(void* param);
+void		update_player(t_game *data);
+void		draw_background(t_game *data);
+void		draw_textured_line(t_game *data, t_ray *ray, int x, mlx_texture_t *texture);
+void		draw_line(t_game *data, t_point p0, t_point p1, uint32_t color);
+void		draw_square(mlx_image_t *minimap, uint32_t x, uint32_t y, uint32_t color);
+
 //UTILS
 char		**ft_split(char const *str, char c);
 void		print_data(t_game *data);
@@ -162,5 +188,8 @@ double		ft_fabs(double value);
 void		calc_perp_distance(t_ray *ray);
 void		calc_screen_coordinates(t_ray *ray);
 void		calc_texture_impact(t_player *player, t_ray *ray);
+
+t_bres		init_bres(t_point p0, t_point p1);
+
 
 #endif

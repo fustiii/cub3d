@@ -22,8 +22,17 @@ static void    init_map(t_map *map)
 
 static void    init_mlx(t_mlx *mlx)
 {
-    (void)mlx;
-    //Init
+    int i;
+    
+    mlx->mlx = NULL;
+    mlx->img = NULL;
+    mlx->minimap = NULL;
+    i = 0;
+    while (i < 4)
+    {
+        mlx->texture[i] = NULL;
+        i++;
+    }
 }
 
 

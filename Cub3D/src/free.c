@@ -9,9 +9,10 @@ void    free_all(t_game *data)
 
     free_array(data->map.map);
     //Miraro esto y lo que recibo en free textures por si estan bien los punteros
-    free_textures(&data->mlx);
+    //free_textures(&data->mlx);
 }
 
+//! Creo que la podre quitar (exit_mlx ya lo hace)
 void    free_textures(t_mlx *mlx)
 {
     if (mlx->texture[0])
@@ -38,6 +39,3 @@ void    free_array(char **array)
     }
     free(array);
 }
-
-void mlx_delete_texture(mlx_texture_t* texture)
-void mlx_delete_image(mlx_t* mlx, mlx_image_t* image)
