@@ -1,3 +1,6 @@
 [submodule "Cub3D/MLX42"]
 	path = Cub3D/MLX42
 	url = https://github.com/codam-coding-college/MLX42.git
+[submodule "Cub3D/Libft"]
+	path = Cub3D/Libft
+	url = https://github.com/fustiii/libft.git
