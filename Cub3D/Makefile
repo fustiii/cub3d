@@ -8,6 +8,12 @@ MLX_LIB  = $(MLX_PATH)/build/libmlx42.a
 # Flags para Linux/WSL: Requiere GLFW y dependencias gráficas
 MLX_FLAGS = -L$(MLX_PATH)/build -lmlx42 -lglfw -ldl -pthread -lm
 
+LIBFT_PATH = ./Libft/libft
+LIBFT_LIB  = $(LIBFT_PATH)/libft.a
+# -L = ruta (busca en...)
+# -l = enlace (que se llame...)
+LIBFT_FLAGS = -L$(LIBFT_PATH) -lft
+
 SRCS = src/main.c \
 	src/initialize.c \
 	src/parse_main.c \
@@ -36,7 +42,7 @@ OBJ = $(SRCS:.c=.o)
 
 INC = -I ./inc -I $(MLX_PATH)/include
 
-all: $(MLX_LIB) $(TARGET)
+all: $(LIBFT_LIB) $(MLX_LIB) $(TARGET)
 
 # --- GESTIÓN DE LA LIBRERÍA MLX42 ---
 # Esta regla automatiza la preparación de la MLX42 como submódulo de Git:
@@ -55,17 +61,31 @@ $(MLX_LIB):
 	fi
 	@cmake --build $(MLX_PATH)/build -j4
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(MLX_FLAGS) -o $(TARGET)
+$(LIBFT_LIB):
+	@if [ ! -f "$(LIBFT_PATH)/ft_atoi.c" ]; then \
+		echo "Submódulo no encontrado. Inicializando..."; \
+		git submodule update --init --recursive; \
+	fi
+	@make -C $(LIBFT_PATH)
 
+# Regla de compilacion general
+# Junta archivos procesados y los junta para crear ejecutable final
+# gcc -Wall -Wextra archivo1.o ... -lmlx ... -o mi_programa
+# Le paso _FLAGS en vez de _LIB porque el sistema estándar de enlace de librerías en C.
+$(TARGET): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT_FLAGS) $(MLX_FLAGS) -o $(TARGET)
+
+# Crea los .o a partir de los .c
 %.o: %.c Makefile inc/cub3d.h inc/get_next_line.h
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
+	@make -C $(LIBFT_PATH) clean
 
 fclean: clean
 	rm -f $(TARGET)
+	@make -C $(LIBFT_PATH) fclean
 
 clean_mlx:
 	@if [ -d "$(MLX_PATH)/build" ]; then rm -rf $(MLX_PATH)/build; fi
@@ -74,4 +94,4 @@ clean_all: fclean clean_mlx
 
 re: fclean all
 
-.PHONY: all clean fclean clean_mlx deepclean re
+.PHONY: all clean fclean clean_mlx clean_all re

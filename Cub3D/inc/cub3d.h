@@ -28,6 +28,7 @@
 #include <sys/time.h> //gettimeofday
 #include <math.h> // para las funciones matematicas
 #include "get_next_line.h" // para gnl
+#include "../Libft/libft/libft.h"
 #include "MLX42/MLX42.h" // para mlx
 
 

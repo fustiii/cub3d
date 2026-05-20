@@ -95,7 +95,7 @@ int extract_map(t_game *data, char **map)
     while(map[i] && !is_empty(map[i]))
     {
         trim_newline(map[i]);
-        data->map.map[i] = strdup(map[i]);
+        data->map.map[i] = ft_strdup(map[i]);
         i++;
     }
     data->map.map[i] = NULL;

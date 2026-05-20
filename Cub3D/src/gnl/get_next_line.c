@@ -94,7 +94,7 @@ char	*read_and_join(int fd, char *stash)
 		if (chars_read == 0)
 			break ;
 		buffer[chars_read] = '\0';
-		stash = ft_strjoin(stash, buffer);
+		stash = ft_strjoin_gnl(stash, buffer);
 	}
 	free (buffer);
 	return (stash);
