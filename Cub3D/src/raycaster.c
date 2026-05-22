@@ -73,6 +73,7 @@ static void calculate_wall_distance(t_game *data, t_ray *ray)
     calc_texture_impact(&data->player, ray);
 }
 
+/*
 //! Sustituida por draw_textued_line
 void draw_vertical_line(t_game *data, t_ray *ray, int x)
 {
@@ -94,6 +95,7 @@ void draw_vertical_line(t_game *data, t_ray *ray, int x)
         y++;
     }
 }
+*/
 
 mlx_texture_t   *get_wall_texture(t_game *data, t_ray *ray)
 {
@@ -123,8 +125,7 @@ void init_cast_ray(t_game *data)
     x = 0;
     while (x < WIDTH)
     {
-        //! libft
-        bzero(&ray, sizeof(t_ray));
+        ft_bzero(&ray, sizeof(t_ray));
         init_ray_vars(data, &ray, x);
         calculate_step_and_side_dist(data, &ray);
         dda_algorithm(data, &ray);
@@ -139,7 +140,6 @@ void init_cast_ray(t_game *data)
         // ==========================================
         current_tex = get_wall_texture(data, &ray);
         draw_textured_line(data, &ray, x, current_tex);
-        
         x++;
     }
 }

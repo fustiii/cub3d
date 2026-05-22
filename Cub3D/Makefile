@@ -1,6 +1,6 @@
 TARGET = cub3d
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g
 
 # --- MLX42 CONFIGURATION ---
 MLX_PATH = ./MLX42
@@ -35,6 +35,7 @@ SRCS = src/main.c \
 	src/raycaster.c \
 	src/raycaster_aux.c \
 	src/draw_walls.c \
+	src/exit.c \
 	src/gnl/get_next_line.c \
 	src/gnl/get_next_line_utils.c
 
@@ -92,6 +93,6 @@ clean_mlx:
 
 clean_all: fclean clean_mlx
 
-re: fclean all
+re: clean_all all
 
 .PHONY: all clean fclean clean_mlx clean_all re

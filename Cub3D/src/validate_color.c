@@ -4,9 +4,7 @@ static int is_valid_byte(char *str)
 {
     int value;
 
-    // Convertimos la cadena a entero
-    value = atoi(str); 
-    
+    value = ft_atoi(str); 
     if (value >= 0 && value <= 255)
         return (1);
     return (0);
@@ -39,7 +37,7 @@ static int    count_char_ocurrences(char *token, char c)
 
     ptr = token;
     commas = 0;
-    while ((ptr = strchr(ptr, c)) != NULL)
+    while ((ptr = ft_strchr(ptr, c)) != NULL)
     {
         commas++;
         ptr++;

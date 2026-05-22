@@ -40,6 +40,7 @@ static int  allowed_character(char pos)
     return (is_allowed);
 }
 
+//! Refactorizar función
 int  validate_map(t_game *data)
 {
     int     y;
@@ -81,10 +82,11 @@ int  validate_map(t_game *data)
 int extract_map(t_game *data, char **map)
 {
     int i;
+    int j;
 
     i = 0;
     trim_newline(map[0]);
-    data->map.cols = strlen(map[i]);
+    data->map.cols = ft_strlen(map[i]);
     while(map[i] && !is_empty(map[i]))
         i++;
     data->map.rows = i;
@@ -95,7 +97,10 @@ int extract_map(t_game *data, char **map)
     while(map[i] && !is_empty(map[i]))
     {
         trim_newline(map[i]);
-        data->map.map[i] = ft_strdup(map[i]);
+        j = 0;
+        while(is_space(map[i][j]))
+            j++;
+        data->map.map[i] = ft_strdup(&map[i][j]);
         i++;
     }
     data->map.map[i] = NULL;

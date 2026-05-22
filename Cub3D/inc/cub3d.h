@@ -175,6 +175,8 @@ void		draw_square(mlx_image_t *minimap, uint32_t x, uint32_t y, uint32_t color);
 char		**ft_split(char const *str, char c);
 void		print_data(t_game *data);
 void		trim_newline(char *str);
+int			ft_strcmp(const char *s1, const char *s2);
+int			is_space(char c);
 
 //FREE
 void    	free_array(char **array);
@@ -189,6 +191,10 @@ double		ft_fabs(double value);
 void		calc_perp_distance(t_ray *ray);
 void		calc_screen_coordinates(t_ray *ray);
 void		calc_texture_impact(t_player *player, t_ray *ray);
+
+//EXIT
+void exit_error(t_game *data);
+void    exit_mlx(t_mlx *mlx);
 
 t_bres		init_bres(t_point p0, t_point p1);
 

@@ -60,7 +60,9 @@ int fill_data(char **file_content, t_game *data)
     {
         //! Revisar si deberia leer más lineas despues de terminar con el mapa
         status = process_line(file_content[i], data, &ids_found, &file_content[i]);
-        if (status == ERROR || status == MAP_DONE)
+        if (status == ERROR)
+            return (ERROR) ;
+        else if (status == MAP_DONE)
             break ;
         i++;
     }

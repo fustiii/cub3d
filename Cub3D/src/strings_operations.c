@@ -24,7 +24,6 @@ void trim_newline(char *str)
         return;
     while (str[i])
     {
-        // Si encontramos el salto de línea o retorno de carro, cortamos el string ahí
         if (str[i] == '\n' || str[i] == '\r')
         {
             str[i] = '\0';
@@ -32,4 +31,11 @@ void trim_newline(char *str)
         }
         i++;
     }
+}
+
+int is_space(char c)
+{
+    if ((c >= 9 && c <= 13) || c == ' ')
+        return (1);
+    return (0);
 }

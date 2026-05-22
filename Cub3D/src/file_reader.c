@@ -34,7 +34,7 @@ int open_file(t_game *data, const char *pathname)
     if (fd < 0)
     {
         //! Creo que tambien deberia comprobar permisos y terminación
-        data->error_msg = "Error: open error - define types of errors";
+        data->error_msg = strerror(errno);
         return (ERROR);
     }
     return (fd);
@@ -56,10 +56,7 @@ char    **file_to_array(t_game *data, char *file)
     fd = open_file(data, file);
     i = 0;
     while ((file_content[i] = get_next_line(fd)) != NULL)
-    {
-        //printf("F-> %s\n", file_content[i]);
         i++;
-    }
     close(fd);
     return (file_content);
 }

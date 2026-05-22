@@ -5,13 +5,13 @@ static int  has_extension(char *path, char *end)
     size_t      path_len;
     size_t      end_len;
 
-    path_len = strlen(path);
-    end_len = strlen(end);
+    path_len = ft_strlen(path);
+    end_len = ft_strlen(end);
 
     if (path_len < end_len)
         return (0);
 
-    if (strcmp(&path[path_len - end_len], end) == 0)
+    if (ft_strcmp(&path[path_len - end_len], end) == 0)
         return (1);
     return (0);
 }
