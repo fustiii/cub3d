@@ -3,7 +3,8 @@
 
 #define SUCCESS 0
 #define ERROR -1
-#define MAP_DONE 2
+#define CONTINUE 1
+#define MAP_START 2
 
 #define WIDTH 1500
 #define HEIGHT 1000
@@ -134,7 +135,6 @@ void		init_data(t_game *data);
 //PARSE_MAIN
 int			parse(t_game *data, char *file);
 int			fill_data(char **file_content, t_game *data);
-int			process_line(char *line, t_game *data, int *ids_found, char **file_content);
 int			is_empty(char *line);
 
 //PARSE_ELEMENTS
@@ -145,6 +145,11 @@ int			extract_color(t_game *data, char *line);
 //PARSE_MAP
 int			extract_map(t_game *data, char **map);
 int			flood_fill(t_game *data);
+int 		assign_player_data(t_game *data, int y, int x);
+int 		allowed_character(char pos);
+
+//INIT_PLAYER
+void		synchronize_player(t_game *data);
 
 //FILE_READER
 int 		count_lines(int fd);
@@ -158,6 +163,7 @@ int			validate_color(t_game *data, char **rgb, char *token);
 
 
 //FUNCTIONS MLX
+void		start_game_graphics(t_game *data);
 int			load_textures(t_game *data);
 void		render_frame(void* param);
 void		hook_key(mlx_key_data_t keydata, void* param);
@@ -177,6 +183,7 @@ void		print_data(t_game *data);
 void		trim_newline(char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 int			is_space(char c);
+int			is_empty(char *line);
 
 //FREE
 void    	free_array(char **array);
@@ -193,10 +200,9 @@ void		calc_screen_coordinates(t_ray *ray);
 void		calc_texture_impact(t_player *player, t_ray *ray);
 
 //EXIT
-void exit_error(t_game *data);
-void    exit_mlx(t_mlx *mlx);
+void		exit_error(t_game *data);
+void		exit_mlx(t_mlx *mlx);
 
 t_bres		init_bres(t_point p0, t_point p1);
-
 
 #endif

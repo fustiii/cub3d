@@ -23,9 +23,7 @@ void    exit_mlx(t_mlx *mlx)
 
 void exit_error(t_game *data)
 {
-    // ft_putstr_fd("Error\n", 2);
-    // ft_putendl_fd(data->error_msg, 2);
-    printf("ERROR_MSG-> %s\n", data->error_msg);
-    free_all(data); // Tu función que libera TODO
+    ft_putendl_fd(data->error_msg, 2);
+    free_all(data);
     exit(EXIT_FAILURE);
 }

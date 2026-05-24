@@ -73,25 +73,3 @@ void    draw_background(t_game *data)
         y++;
     }
 }
-
-/*
-//! No la estoy utilizando
-void    draw_triangle(mlx_image_t *minimap, uint32_t x, uint32_t y, uint32_t color)
-{
-    uint32_t i;
-    uint32_t j;
-
-    j = 0;
-    while (j < TILE_SIZE)
-    {
-        i = 0;
-        // Al hacer que i dependa de j, cada fila dibuja un píxel más que la anterior
-        while (i <= j) 
-        {
-            mlx_put_pixel(minimap, i + x, j + y, color);
-            i++;
-        }
-        j++;
-    }
-}
-*/

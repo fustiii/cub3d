@@ -1,6 +1,6 @@
 TARGET = cub3d
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 # --- MLX42 CONFIGURATION ---
 MLX_PATH = ./MLX42
@@ -21,6 +21,9 @@ SRCS = src/main.c \
 	src/validate_color.c \
 	src/validate_identifiers.c \
 	src/parse_map.c \
+	src/validate_map.c \
+	src/init_player.c \
+	src/game_graphics.c \
 	src/flood_fill.c \
 	src/file_reader.c \
 	src/strings_operations.c \

@@ -7,7 +7,6 @@ static void init_ray_vars(t_game *data, t_ray *ray, int x)
     ray->ray_dir_y = data->player.dir_y + (data->player.plane_y * ray->camera_x);
     ray->map_x = (int)data->player.pos_x;
     ray->map_y = (int)data->player.pos_y;
-    
     if (ray->ray_dir_x == 0)
         ray->delta_dist_x = 1e30;
     else
@@ -64,7 +63,7 @@ static void dda_algorithm(t_game *data, t_ray *ray)
         if (data->map.map[ray->map_y][ray->map_x] == '1')
             ray->hit_wall = 1;
     }
-}
+} 
 
 static void calculate_wall_distance(t_game *data, t_ray *ray)
 {
@@ -73,46 +72,21 @@ static void calculate_wall_distance(t_game *data, t_ray *ray)
     calc_texture_impact(&data->player, ray);
 }
 
-/*
-//! Sustituida por draw_textued_line
-void draw_vertical_line(t_game *data, t_ray *ray, int x)
-{
-    int y;
-    uint32_t color_del_muro; // Un color provisional para probar, ej: 0xFF0000FF (Rojo)
-
-    // 1. Nos situamos en el punto más alto del muro para esta columna
-    y = ray->draw_start;
-    
-    color_del_muro = 0xFF0000FF; // Rojo en formato RGBA para MLX42
-
-    // 2. Bajamos píxel a píxel hasta llegar al final del muro
-    while (y <= ray->draw_end)
-    {
-        // 3. Pintamos el píxel en la imagen principal de tu juego
-        // (Asegúrate de que 'data->image' sea el puntero a tu mlx_image_t principal)
-        mlx_put_pixel(data->mlx.img, x, y, color_del_muro);
-        
-        y++;
-    }
-}
-*/
-
 mlx_texture_t   *get_wall_texture(t_game *data, t_ray *ray)
 {
     if (ray->side == 0) // Impacto en el eje X (Caras Este / Oeste)
     {
         if (ray->ray_dir_x > 0)
-            return (data->mlx.texture[3]);  // El rayo va a la derecha, choca con la pared Oeste del bloque
+            return (data->mlx.texture[3]);
         else
-            return (data->mlx.texture[2]);  // El rayo va a la izquierda, choca con la pared Este
+            return (data->mlx.texture[2]);
     }
-    else // Impacto en el eje Y (Caras Norte / Sur)
+    else
     {
-        // Invierto estas dos por como he hecho el parseo
         if (ray->ray_dir_y > 0)
-            return (data->mlx.texture[1]); // El rayo va hacia abajo, choca con la pared Norte
+            return (data->mlx.texture[1]);
         else
-            return (data->mlx.texture[0]); // El rayo va hacia arriba, choca con la pared Sur
+            return (data->mlx.texture[0]);
     }
 }
 
@@ -130,14 +104,6 @@ void init_cast_ray(t_game *data)
         calculate_step_and_side_dist(data, &ray);
         dda_algorithm(data, &ray);
         calculate_wall_distance(data, &ray); 
-        
-        // ==========================================
-        // AQUÍ ES DONDE ENTRA TU COMPAÑERO
-        // El struct 'ray' ya tiene todo calculado para la columna 'x'.
-        // Él deberá crear una función similar a esta y llamarla aquí:
-        //
-        // draw_vertical_line(data, &ray, x);
-        // ==========================================
         current_tex = get_wall_texture(data, &ray);
         draw_textured_line(data, &ray, x, current_tex);
         x++;

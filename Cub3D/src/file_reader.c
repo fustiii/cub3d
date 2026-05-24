@@ -33,7 +33,6 @@ int open_file(t_game *data, const char *pathname)
     fd = open(pathname, O_RDWR);
     if (fd < 0)
     {
-        //! Creo que tambien deberia comprobar permisos y terminación
         data->error_msg = strerror(errno);
         return (ERROR);
     }

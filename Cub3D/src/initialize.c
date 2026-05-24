@@ -38,20 +38,13 @@ static void    init_mlx(t_mlx *mlx)
 
 void init_data(t_game *data)
 {
-    // Inicializar texturas
     data->no_path = NULL;
     data->so_path = NULL;
     data->we_path = NULL;
     data->ea_path = NULL;
-    
-    // Inicializar colores con un valor imposible
     data->floor_rgb = -1;
     data->ceil_rgb = -1;
-
-    // Inicializar error
     data->error_msg = NULL;
-
-    // Inicializar las sub-estructuras
     init_map(&data->map);
     init_player(&data->player);
     init_mlx(&data->mlx);

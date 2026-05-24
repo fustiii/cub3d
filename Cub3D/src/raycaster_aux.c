@@ -31,12 +31,9 @@ void calc_screen_coordinates(t_ray *ray)
 
 void calc_texture_impact(t_player *player, t_ray *ray)
 {
-    // Calculamos el impacto real
     if (ray->side == 0)
         ray->wall_x = player->pos_y + ray->perp_wall_dist * ray->ray_dir_y;
     else
         ray->wall_x = player->pos_x + ray->perp_wall_dist * ray->ray_dir_x;
-    
-    // Extraemos solo la parte decimal
     ray->wall_x -= floor(ray->wall_x);
 }

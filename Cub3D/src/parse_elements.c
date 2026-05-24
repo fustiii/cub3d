@@ -4,15 +4,12 @@ t_type_id find_type_id(const char *line)
 {
     if (line == NULL || line[0] == '\0')
         return ID_ERROR;
-    // IDs de una sola letra
-    if (line[0] == 'F' && (line[1] == ' ' || line[1] == '\t')) //!Usar is_space?
+    if (line[0] == 'F' && (line[1] == ' ' || line[1] == '\t'))
         return ID_FLOOR;
     if (line[0] == 'C' && (line[1] == ' ' || line[1] == '\t'))
         return ID_CEILING;
-    // Seguridad por si la línea solo tiene 1 char
     if (line[1] == '\0')
         return ID_ERROR;
-    // IDs de dos letras
     if (line[0] == 'N' && line[1] == 'O')
         return ID_NORTH;
     if (line[0] == 'S' && line[1] == 'O')
@@ -64,7 +61,7 @@ int  extract_color(t_game *data, char *line)
     char    **tokens;
     char    **rgb;
 
-    tokens = ft_split(line, ' '); // Crea un array en el HEAP
+    tokens = ft_split(line, ' ');
     if (!tokens)
         return (ERROR);
     rgb = ft_split(tokens[1], ',');
@@ -79,12 +76,10 @@ int  extract_color(t_game *data, char *line)
         free_array(tokens);
         return (ERROR);
     }
-    //! Convertir en ft_atoi (todas)
     if (ft_strcmp(tokens[0], "F") == 0)
         data->floor_rgb = (atoi(rgb[0]) << 24 | atoi(rgb[1]) << 16 | atoi(rgb[2]) << 8 | 0xFF);
     else if (ft_strcmp(tokens[0], "C") == 0)
         data->ceil_rgb = (atoi(rgb[0]) << 24 | atoi(rgb[1]) << 16 | atoi(rgb[2]) << 8 | 0xFF);
-    
     free_array(rgb);
     free_array(tokens);
     return (SUCCESS);

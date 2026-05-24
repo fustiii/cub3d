@@ -1,103 +1,81 @@
 #include "../inc/cub3d.h"
 
-int is_empty(char *line)
+static int  process_identifier(char *line, t_game *data, int *ids_found)
 {
-    int i = 0;
-    while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n' || line[i] == '\r')
-        i++;
-    return (line[i] == '\0'); // Si llegamos al final, es que estaba "vacía"
+	t_type_id   type_id;
+
+	type_id = find_type_id(line);
+	if (type_id == ID_ERROR)
+		return (CONTINUE);
+	if (type_id == ID_FLOOR || type_id == ID_CEILING)
+	{
+		if (extract_color(data, line) == ERROR)
+			return (ERROR);
+	}
+	else
+	{
+		if (extract_texture(data, line) == ERROR)
+			return (ERROR);
+	}
+	(*ids_found)++;
+	return (SUCCESS);
 }
 
-int process_line(char *line, t_game *data, int *ids_found, char **file_content)
+static int	process_line(char *line, t_game *data, int *ids_found)
 {
-    t_type_id   type_id;
+	int	id_status;
 
-    if (is_empty(line))
-        return (SUCCESS);
-    type_id = find_type_id(line);
-    if (type_id)
-    {
-        if (type_id == ID_FLOOR || type_id == ID_CEILING)
-        {
-            if (extract_color(data, line) == ERROR)
-                return (ERROR);
-        }
-        else
-        {
-            if (extract_texture(data, line) == ERROR)
-                return (ERROR);
-        }
-        (*ids_found)++;
-        return (SUCCESS);
-    }
-    // Si no es vacío ni ID, es el mapa
-    if (*ids_found < 6)
-    {
-        data->error_msg = "Error: Invalid ID or missing elements before map";
-        return (ERROR);
-    }
-    if (type_id == ID_ERROR)
-    {
-        if (validate_identifiers(data) == ERROR) 
-            return (ERROR);
-        if (extract_map(data, file_content) == ERROR) // Le pasamos dirección de la linea actual
-            return (ERROR);
-        return (MAP_DONE); //! ¿Que pasa si hay más lineas despues del mapa? Gestionarlo
-    }
-    return (SUCCESS);
+	if (is_empty(line))
+		return (SUCCESS);
+	id_status = process_identifier(line, data, ids_found);
+	if (id_status == ERROR)
+		return (ERROR);
+	if (id_status == SUCCESS)
+		return (SUCCESS);
+	if (*ids_found < 6)
+	{
+		data->error_msg = "Error: Invalid ID or missing elements before map";
+		return (ERROR);
+	}
+	return (MAP_START); 
 }
 
-//! Revisar que esta funcion retorne bien cuando falla
-int fill_data(char **file_content, t_game *data)
+static int	process_map(char **file_content, t_game *data, int index)
 {
-    int i;
-    int ids_found;
-    int status;
-
-    i = 0;
-    ids_found = 0;
-    while (file_content[i])
-    {
-        //! Revisar si deberia leer más lineas despues de terminar con el mapa
-        status = process_line(file_content[i], data, &ids_found, &file_content[i]);
-        if (status == ERROR)
-            return (ERROR) ;
-        else if (status == MAP_DONE)
-            break ;
-        i++;
-    }
-    if (status == MAP_DONE && validate_map(data) == ERROR)
-        return (ERROR);
-    return (SUCCESS);
+	if (validate_identifiers(data) == ERROR)
+		return (ERROR);
+	if (extract_map(data, &file_content[index]) == ERROR)
+		return (ERROR);
+	if (validate_map(data) == ERROR)
+		return (ERROR);
+	return (SUCCESS);
 }
 
-void synchronize_player(t_game *data)
+int	fill_data(char **file_content, t_game *data)
 {
-    //! Seria una buena practica poner a 0 el resto en cada if (aunque lo haga en init)
-    if (data->map.player_dir == 'N')
-    {
-        data->player.dir_y = -1.0;
-        data->player.plane_x = 0.66;
-    }
-    else if (data->map.player_dir == 'S')
-    {
-        data->player.dir_y = 1.0;
-        data->player.plane_x = -0.66;
-    }
-    else if (data->map.player_dir == 'E')
-    {
-        data->player.dir_x = 1.0;
-        data->player.plane_y = 0.66;
-    }
-    else if (data->map.player_dir == 'W')
-    {
-        data->player.dir_x = -1.0;
-        data->player.plane_y = -0.66;
-    }
-    data->player.pos_x = (double)data->map.player_x + 0.5;
-    data->player.pos_y = (double)data->map.player_y + 0.5;
-}
+	int	i;
+	int	ids_found;
+	int	status;
 
+	i = 0;
+	ids_found = 0;
+	status = SUCCESS;
+	while (file_content[i])
+	{
+		status = process_line(file_content[i], data, &ids_found);
+		if (status == ERROR)
+			return (ERROR);
+		if (status == MAP_START)
+			break ;
+		i++;
+	}
+	if (status != MAP_START)
+	{
+		data->error_msg = "Error: Map content not found";
+		return (ERROR);
+	}
+	return (process_map(file_content, data, i));
+}
 
 int parse(t_game *data, char *file)
 {
@@ -113,9 +91,6 @@ int parse(t_game *data, char *file)
         return (ERROR);
     }
     synchronize_player(data);
-    
-    //print_data(data);
-
     free_array(file_content);
     return (SUCCESS);
 }
