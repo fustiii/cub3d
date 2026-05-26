@@ -79,18 +79,18 @@ int	fill_data(char **file_content, t_game *data)
 
 int parse(t_game *data, char *file)
 {
-    char        **file_content;
+	char        **file_content;
 
-    file_content = file_to_array(data, file);
-    if (!file_content)
-        return (ERROR);
-    
-    if (fill_data(file_content, data) == ERROR)
-    {
-        free_array(file_content);
-        return (ERROR);
-    }
-    synchronize_player(data);
-    free_array(file_content);
-    return (SUCCESS);
+	file_content = file_to_array(data, file);
+	if (!file_content)
+		return (ERROR);
+	
+	if (fill_data(file_content, data) == ERROR)
+	{
+		free_array(file_content);
+		return (ERROR);
+	}
+	synchronize_player(data);
+	free_array(file_content);
+	return (SUCCESS);
 }
