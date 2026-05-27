@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_player.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfuster <gfuster@student.42barcelona.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/27 11:13:46 by gfuster           #+#    #+#             */
+/*   Updated: 2026/05/27 11:13:51 by gfuster          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
-void synchronize_player(t_game *data)
+void	synchronize_player(t_game *data)
 {
 	if (data->map.player_dir == 'N')
 	{

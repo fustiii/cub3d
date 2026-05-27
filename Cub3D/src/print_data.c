@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_data.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfuster <gfuster@student.42barcelona.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/27 11:16:42 by gfuster           #+#    #+#             */
+/*   Updated: 2026/05/27 11:16:49 by gfuster          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
-static void    print_data_two(t_game *data)
+static void	print_data_two(t_game *data)
 {
 	printf("Rows-> %d\n", data->map.rows);
 	printf("Cols-> %d\n", data->map.cols);
@@ -15,18 +27,18 @@ static void    print_data_two(t_game *data)
 	printf("Plane_x-> %f\n", data->player.plane_x);
 }
 
-void    print_data(t_game *data)
+void	print_data(t_game *data)
 {
+	int	i;
+
+	i = 0;
 	printf("ERROR_MSG-> %s\n", data->error_msg);
 	printf("NO-> %s\n", data->no_path);
 	printf("SO-> %s\n", data->so_path);
 	printf("WE-> %s\n", data->we_path);
 	printf("EA-> %s\n", data->ea_path);
-
 	printf("F-> %d\n", data->floor_rgb);
 	printf("C-> %d\n", data->ceil_rgb);
-
-	int i = 0;
 	while (data->map.map != NULL && data->map.map[i] != NULL)
 	{
 		printf("%s\n", data->map.map[i]);

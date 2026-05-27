@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_functions.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfuster <gfuster@student.42barcelona.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/27 11:08:32 by gfuster           #+#    #+#             */
+/*   Updated: 2026/05/27 11:08:41 by gfuster          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 /*
 Dibuja una línea usando el algoritmo de Bresenham.
  */
-void draw_line(t_game *data, t_point p0, t_point p1, uint32_t color)
+void	draw_line(t_game *data, t_point p0, t_point p1, uint32_t color)
 {
-	t_bres b;
-	int    e2;
+	t_bres	b;
+	int		e2;
 
 	b = init_bres(p0, p1);
 	while (1)
@@ -28,10 +40,11 @@ void draw_line(t_game *data, t_point p0, t_point p1, uint32_t color)
 	}
 }
 
-void    draw_square(mlx_image_t *minimap, uint32_t x, uint32_t y, uint32_t color)
+void	draw_square(mlx_image_t *minimap, uint32_t x, uint32_t y,
+	uint32_t color)
 {
-	uint32_t i;
-	uint32_t j;
+	uint32_t	i;
+	uint32_t	j;
 
 	j = 0;
 	while (j < TILE_SIZE)
@@ -46,10 +59,10 @@ void    draw_square(mlx_image_t *minimap, uint32_t x, uint32_t y, uint32_t color
 	}
 }
 
-void    draw_background(t_game *data)
+void	draw_background(t_game *data)
 {
-	int y;
-	int x;
+	int	y;
+	int	x;
 
 	y = 0;
 	while (y < HEIGHT / 2)

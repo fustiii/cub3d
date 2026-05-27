@@ -13,12 +13,9 @@
 
 #define TILE_SIZE 16
 #define PLAYER_SIZE 8
-#define BUFFER 0.2 //Para comprobar su hitbox
-// Igual al tamanyo visual del jugador:
-// BUFFER = (PLAYER_SIZE / 2.0) / TILE_SIZE
-#define SPEED 0.05 //Velocidad de movimiento
-#define ROT_SPEED 0.06 // Velocidad de la rotación
-// Que realmente seria el angulo que queremos rotar el vector cada vez
+#define BUFFER 0.2
+#define SPEED 0.05
+#define ROT_SPEED 0.06
 
 #include <unistd.h> //close, read, write
 #include <fcntl.h> //open
@@ -129,80 +126,82 @@ typedef struct	s_game
 
 
 
-void		init_data(t_game *data);
+void			init_data(t_game *data);
 
 /* -- PARSING -- */
 //PARSE_MAIN
-int			parse(t_game *data, char *file);
-int			fill_data(char **file_content, t_game *data);
-int			is_empty(char *line);
+int				parse(t_game *data, char *file);
+int				fill_data(char **file_content, t_game *data);
+int				is_empty(char *line);
 
 //PARSE_ELEMENTS
-t_type_id	find_type_id(const char *line);
-int			extract_texture(t_game *data, char *line);
-int			extract_color(t_game *data, char *line);
+t_type_id		find_type_id(const char *line);
+int				extract_texture(t_game *data, char *line);
+int				extract_color(t_game *data, char *line);
 
 //PARSE_MAP
-int			extract_map(t_game *data, char **map);
-int			flood_fill(t_game *data);
-int 		assign_player_data(t_game *data, int y, int x);
-int 		allowed_character(char pos);
+int				extract_map(t_game *data, char **map);
+int				flood_fill(t_game *data);
+int 			assign_player_data(t_game *data, int y, int x);
+int 			allowed_character(char pos);
 
 //INIT_PLAYER
-void		synchronize_player(t_game *data);
+void			synchronize_player(t_game *data);
 
 //FILE_READER
-int 		count_lines(int fd);
-int 		open_file(t_game *data, const char *pathname);
-char    	**file_to_array(t_game *data, char *file);
+int 			count_lines(int fd);
+int 			open_file(t_game *data, const char *pathname);
+char    		**file_to_array(t_game *data, char *file);
 
 //VALIDATIONS
-int    		validate_identifiers(t_game *data);
-int 		validate_map(t_game *data);
-int			validate_color(t_game *data, char **rgb, char *token);
-
+int    			validate_identifiers(t_game *data);
+int 			validate_map(t_game *data);
+int				validate_color(t_game *data, char **rgb, char *token);
+int				has_extension(char *path, char *end);
 
 //FUNCTIONS MLX
-void		start_game_graphics(t_game *data);
-int			load_textures(t_game *data);
-void		render_frame(void* param);
-void		hook_key(mlx_key_data_t keydata, void* param);
-void		handle_input(t_game *data);
+void			start_game_graphics(t_game *data);
+int				load_textures(t_game *data);
+void			render_frame(void* param);
+void			hook_key(mlx_key_data_t keydata, void* param);
+void			handle_input(t_game *data);
 
 //PAINT SCREEN
-void		update_minimap(void* param);
-void		update_player(t_game *data);
-void		draw_background(t_game *data);
-void		draw_textured_line(t_game *data, t_ray *ray, int x, mlx_texture_t *texture);
-void		draw_line(t_game *data, t_point p0, t_point p1, uint32_t color);
-void		draw_square(mlx_image_t *minimap, uint32_t x, uint32_t y, uint32_t color);
+void			update_minimap(void* param);
+void			update_player(t_game *data);
+void			draw_background(t_game *data);
+void			draw_textured_line(t_game *data, t_ray *ray, int x, mlx_texture_t *texture);
+void			draw_line(t_game *data, t_point p0, t_point p1, uint32_t color);
+void			draw_square(mlx_image_t *minimap, uint32_t x, uint32_t y, uint32_t color);
 
 //UTILS
-char		**ft_split(char const *str, char c);
-void		print_data(t_game *data);
-void		trim_newline(char *str);
-int			ft_strcmp(const char *s1, const char *s2);
-int			is_space(char c);
-int			is_empty(char *line);
+char			**ft_split(char const *str, char c);
+void			print_data(t_game *data);
+void			trim_newline(char *str);
+int				ft_strcmp(const char *s1, const char *s2);
+int				is_space(char c);
+int				is_empty(char *line);
+int				is_walkable(char c);
 
 //FREE
-void    	free_array(char **array);
-void    	free_all(t_game *data);
-void		free_textures(t_mlx *mlx);
+void    		free_array(char **array);
+void    		free_all(t_game *data);
+void			free_textures(t_mlx *mlx);
 
 //RAYCASTER
-void		init_cast_ray(t_game *data);
+void			init_cast_ray(t_game *data);
 
 //RAYCASTER AUX
-double		ft_fabs(double value);
-void		calc_perp_distance(t_ray *ray);
-void		calc_screen_coordinates(t_ray *ray);
-void		calc_texture_impact(t_player *player, t_ray *ray);
+double			ft_fabs(double value);
+void			calc_perp_distance(t_ray *ray);
+void			calc_screen_coordinates(t_ray *ray);
+void			calc_texture_impact(t_player *player, t_ray *ray);
+mlx_texture_t	*get_wall_texture(t_game *data, t_ray *ray);
 
 //EXIT
-void		exit_error(t_game *data);
-void		exit_mlx(t_mlx *mlx);
+void			exit_error(t_game *data);
+void			exit_mlx(t_mlx *mlx);
 
-t_bres		init_bres(t_point p0, t_point p1);
+t_bres			init_bres(t_point p0, t_point p1);
 
 #endif

@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   game_graphics.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfuster <gfuster@student.42barcelona.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/27 11:12:51 by gfuster           #+#    #+#             */
+/*   Updated: 2026/05/27 11:12:54 by gfuster          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 static int	init_mlx_assets(t_game *data)
 {
 	data->mlx.img = mlx_new_image(data->mlx.mlx, WIDTH, HEIGHT);
-	data->mlx.minimap = mlx_new_image(data->mlx.mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
+	data->mlx.minimap = mlx_new_image(data->mlx.mlx,
+			MINIMAP_WIDTH, MINIMAP_HEIGHT);
 	if (!data->mlx.img || !data->mlx.minimap)
 	{
 		data->error_msg = "Error: Failed to create MLX image buffers";

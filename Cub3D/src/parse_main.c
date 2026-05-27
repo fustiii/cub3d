@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_main.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfuster <gfuster@student.42barcelona.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/27 11:15:33 by gfuster           #+#    #+#             */
+/*   Updated: 2026/05/27 11:16:03 by gfuster          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
-static int  process_identifier(char *line, t_game *data, int *ids_found)
+static int	process_identifier(char *line, t_game *data, int *ids_found)
 {
-	t_type_id   type_id;
+	t_type_id	type_id;
 
 	type_id = find_type_id(line);
 	if (type_id == ID_ERROR)
@@ -37,7 +49,7 @@ static int	process_line(char *line, t_game *data, int *ids_found)
 		data->error_msg = "Error: Invalid ID or missing elements before map";
 		return (ERROR);
 	}
-	return (MAP_START); 
+	return (MAP_START);
 }
 
 static int	process_map(char **file_content, t_game *data, int index)
@@ -77,14 +89,13 @@ int	fill_data(char **file_content, t_game *data)
 	return (process_map(file_content, data, i));
 }
 
-int parse(t_game *data, char *file)
+int	parse(t_game *data, char *file)
 {
-	char        **file_content;
+	char	**file_content;
 
 	file_content = file_to_array(data, file);
 	if (!file_content)
 		return (ERROR);
-	
 	if (fill_data(file_content, data) == ERROR)
 	{
 		free_array(file_content);

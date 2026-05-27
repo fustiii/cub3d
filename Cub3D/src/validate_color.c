@@ -1,26 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate_color.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfuster <gfuster@student.42barcelona.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/27 11:19:25 by gfuster           #+#    #+#             */
+/*   Updated: 2026/05/27 11:19:26 by gfuster          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
-static int is_valid_byte(char *str)
+static int	is_valid_byte(char *str)
 {
-	int value;
+	int	value;
 
-	value = ft_atoi(str); 
+	value = ft_atoi(str);
 	if (value >= 0 && value <= 255)
 		return (1);
 	return (0);
 }
 
-static int is_str_digit(char *str)
+static int	is_str_digit(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str || str[i] == '\0')
 		return (0);
 	while (str[i])
 	{
-	   if (str[i] == '\n' || str[i] == '\r' || str[i] == ' ')
-			break;
+		if (str[i] == '\n' || str[i] == '\r' || str[i] == ' ')
+			break ;
 		if (str[i] < '0' || str[i] > '9')
 			return (0);
 		i++;
@@ -30,49 +42,43 @@ static int is_str_digit(char *str)
 	return (1);
 }
 
-static int    count_char_ocurrences(char *token, char c)
+static int	count_char_ocurrences(char *token, char c)
 {
-	char    *ptr;
-	int     commas;
+	char	*ptr;
+	int		commas;
 
-	ptr = token;
 	commas = 0;
-	while ((ptr = ft_strchr(ptr, c)) != NULL)
+	ptr = ft_strchr(token, c);
+	while (ptr != NULL)
 	{
 		commas++;
 		ptr++;
+		ptr = ft_strchr(ptr, c);
 	}
 	return (commas);
 }
 
-int validate_color(t_game *data, char **rgb, char *token)
+static int	set_error(t_game *data, char *msg)
 {
-	int i;
+	data->error_msg = msg;
+	return (ERROR);
+}
+
+int	validate_color(t_game *data, char **rgb, char *token)
+{
+	int	i;
 
 	if (count_char_ocurrences(token, ',') != 2)
-	{
-		data->error_msg = "Error: More than two commas";
-		return (ERROR);
-	}
-	i = 0;
-	while (rgb[i])
+		return (set_error(data, "Error: More than two commas"));
+	i = -1;
+	while (rgb[++i])
 	{
 		if (!is_str_digit(rgb[i]))
-		{
-			data->error_msg = "Error: Is not a digit";
-			return (ERROR);
-		}
+			return (set_error(data, "Error: Is not a digit"));
 		if (!is_valid_byte(rgb[i]))
-		{
-			data->error_msg = "Error: Is not a valid byte [0-255]";
-			return (ERROR);
-		}
-		i++;
+			return (set_error(data, "Error: Is not a valid byte [0-255]"));
 	}
 	if (i != 3)
-	{
-		data->error_msg = "Error: There are either too many or too few color components";
-		return (ERROR);
-	}
+		return (set_error(data, "Error: Too many or too few color"));
 	return (SUCCESS);
 }

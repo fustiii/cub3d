@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialize.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfuster <gfuster@student.42barcelona.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/27 11:14:09 by gfuster           #+#    #+#             */
+/*   Updated: 2026/05/27 11:14:11 by gfuster          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
-static void    init_player(t_player *player)
+static void	init_player(t_player *player)
 {
 	player->pos_y = 0.0;
 	player->pos_x = 0.0;
@@ -10,7 +22,7 @@ static void    init_player(t_player *player)
 	player->plane_x = 0.0;
 }
 
-static void    init_map(t_map *map)
+static void	init_map(t_map *map)
 {
 	map->map = NULL;
 	map->rows = 0;
@@ -20,10 +32,10 @@ static void    init_map(t_map *map)
 	map->player_dir = -1;
 }
 
-static void    init_mlx(t_mlx *mlx)
+static void	init_mlx(t_mlx *mlx)
 {
-	int i;
-	
+	int	i;
+
 	mlx->mlx = NULL;
 	mlx->img = NULL;
 	mlx->minimap = NULL;
@@ -35,8 +47,7 @@ static void    init_mlx(t_mlx *mlx)
 	}
 }
 
-
-void init_data(t_game *data)
+void	init_data(t_game *data)
 {
 	data->no_path = NULL;
 	data->so_path = NULL;

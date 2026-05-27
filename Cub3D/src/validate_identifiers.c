@@ -1,24 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate_identifiers.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfuster <gfuster@student.42barcelona.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/27 11:19:41 by gfuster           #+#    #+#             */
+/*   Updated: 2026/05/27 11:19:43 by gfuster          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
-static int  has_extension(char *path, char *end)
+int	has_extension(char *path, char *end)
 {
-	size_t      path_len;
-	size_t      end_len;
+	size_t	path_len;
+	size_t	end_len;
 
 	path_len = ft_strlen(path);
 	end_len = ft_strlen(end);
-
 	if (path_len < end_len)
 		return (0);
-
 	if (ft_strcmp(&path[path_len - end_len], end) == 0)
 		return (1);
 	return (0);
 }
 
-static int  can_open_file(t_game *data, char *path)
+static int	can_open_file(t_game *data, char *path)
 {
-	int fd;
+	int	fd;
 
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
@@ -35,10 +45,11 @@ static int  can_open_file(t_game *data, char *path)
 	return (1);
 }
 
-int    validate_identifiers(t_game *data)
+int	validate_identifiers(t_game *data)
 {
-	int i;
-	char *path[4];
+	int		i;
+	char	*path[4];
+
 	path[0] = data->no_path;
 	path[1] = data->so_path;
 	path[2] = data->we_path;
