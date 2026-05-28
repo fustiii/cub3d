@@ -52,7 +52,8 @@ void	draw_square(mlx_image_t *minimap, uint32_t x, uint32_t y,
 		i = 0;
 		while (i < TILE_SIZE)
 		{
-			mlx_put_pixel(minimap, i + x, j + y, color);
+			if (i + x < minimap->width && j + y < minimap->height)
+				mlx_put_pixel(minimap, i + x, j + y, color);
 			i++;
 		}
 		j++;
