@@ -35,10 +35,11 @@ static int	process_identifier(char *line, t_game *data, int *ids_found)
 
 static int	process_line(char *line, t_game *data, int *ids_found)
 {
-	int	id_status;
+	int		id_status;
 
 	if (is_empty(line))
 		return (SUCCESS);
+	trim_newline(line);
 	id_status = process_identifier(line, data, ids_found);
 	if (id_status == ERROR)
 		return (ERROR);

@@ -28,19 +28,15 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 void	trim_newline(char *str)
 {
-	int	i;
+	int	len;
 
-	i = 0;
 	if (!str)
 		return ;
-	while (str[i])
+	len = ft_strlen(str);
+	while (len > 0 && (str[len - 1] == '\n' || str[len - 1] == '\r'))
 	{
-		if (str[i] == '\n' || str[i] == '\r')
-		{
-			str[i] = '\0';
-			break ;
-		}
-		i++;
+		str[len - 1] = '\0';
+		len--;
 	}
 }
 
@@ -56,8 +52,11 @@ int	is_empty(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n'
-		|| line[i] == '\r')
+	while (line[i])
+	{
+		if (!is_space(line[i]))
+			return (0);
 		i++;
-	return (line[i] == '\0');
+	}
+	return (1);
 }

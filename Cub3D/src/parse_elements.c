@@ -48,37 +48,45 @@ static int	assign_path(char **target_path, char *path,
 	return (SUCCESS);
 }
 
+static int	set_texture_path(t_game *data, char **tokens)
+{
+	if (ft_strcmp(tokens[0], "NO") == 0)
+		return (assign_path(&data->no_path, tokens[1], data,
+				"Error: NO already exist"));
+	if (ft_strcmp(tokens[0], "SO") == 0)
+		return (assign_path(&data->so_path, tokens[1], data,
+				"Error: SO already exist"));
+	if (ft_strcmp(tokens[0], "WE") == 0)
+		return (assign_path(&data->we_path, tokens[1], data,
+				"Error: WE already exist"));
+	if (ft_strcmp(tokens[0], "EA") == 0)
+		return (assign_path(&data->ea_path, tokens[1], data,
+				"Error: EA already exist"));
+	return (ERROR);
+}
+
 int	extract_texture(t_game *data, char *line)
 {
 	char	**tokens;
 	int		status;
 
-	tokens = ft_split(line, ' ');
+	tokens = ft_split_whitespace(line);
 	if (!tokens)
 		return (ERROR);
 	status = SUCCESS;
-	if (ft_strcmp(tokens[0], "NO") == 0)
-		status = assign_path(&data->no_path, tokens[1], data,
-				"Error: NO already exist");
-	else if (ft_strcmp(tokens[0], "SO") == 0)
-		status = assign_path(&data->so_path, tokens[1], data,
-				"Error: SO already exist");
-	else if (ft_strcmp(tokens[0], "WE") == 0)
-		status = assign_path(&data->we_path, tokens[1], data,
-				"Error: WE already exist");
-	else if (ft_strcmp(tokens[0], "EA") == 0)
-		status = assign_path(&data->ea_path, tokens[1], data,
-				"Error: EA already exist");
+	if (tokens[0] == NULL || tokens[1] == NULL)
+	{
+		data->error_msg = "Error: Missing texture identifier or path";
+		status = ERROR;
+	}
+	else if (tokens[2] != NULL)
+	{
+		data->error_msg = "Error: Unexpected characters found after file";
+		status = ERROR;
+	}
+	if (status != ERROR)
+		status = set_texture_path(data, tokens);
 	free_array(tokens);
-	return (status);
-}
-
-static int	free_and_return(char **tokens, char **rgb, int status)
-{
-	if (rgb)
-		free_array(rgb);
-	if (tokens)
-		free_array(tokens);
 	return (status);
 }
 

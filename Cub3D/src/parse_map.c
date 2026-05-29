@@ -65,7 +65,7 @@ static int	calculate_max_cols(char **map)
 	while (map[i])
 	{
 		j = 0;
-		while(map[i][j] != '\0')
+		while (map[i][j] != '\0')
 		{
 			j++;
 		}
@@ -76,47 +76,50 @@ static int	calculate_max_cols(char **map)
 	return (max_cols);
 }
 
-static char *line_to_map(char *src, int max_cols)
+static char	*line_to_map(char *src, int max_cols)
 {
-    char *dst;
-    int len;
+	char	*dst;
+	int		len;
 
-    dst = malloc(sizeof(char) * (max_cols + 1));
-    if (!dst)
-        return (NULL);
-    len = ft_strlen(src);
-    ft_strlcpy(dst, src, max_cols + 1);
-    while (len < max_cols)
-    {
-        dst[len] = ' ';
-        len++;
-    }
-    dst[len] = '\0';
-    return (dst);
+	dst = malloc(sizeof(char) * (max_cols + 1));
+	if (!dst)
+		return (NULL);
+	len = ft_strlen(src);
+	ft_strlcpy(dst, src, max_cols + 1);
+	while (len < max_cols)
+	{
+		dst[len] = ' ';
+		len++;
+	}
+	dst[len] = '\0';
+	return (dst);
 }
 
-int extract_map(t_game *data, char **map)
+int	extract_map(t_game *data, char **map)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    trim_newline(map[0]);
-    data->map.cols = calculate_max_cols(map);
-    while (map[i] && !is_empty(map[i]))
-        i++;
-    data->map.rows = i;
-    data->map.map = malloc(sizeof(char *) * (i + 1));
-    if (!data->map.map)
-        return (ERROR);
-    i = 0;
-    while (map[i] && !is_empty(map[i]))
-    {
-        trim_newline(map[i]);
-        data->map.map[i] = line_to_map(map[i], data->map.cols);
-        if (!data->map.map[i])
-            return (ERROR);
-        i++;
-    }
-    data->map.map[i] = NULL;
-    return (SUCCESS);
+	i = 0;
+	data->map.cols = calculate_max_cols(map);
+	while (map[i] && !is_empty(map[i]))
+		i++;
+	data->map.rows = i;
+	data->map.map = malloc(sizeof(char *) * (i + 1));
+	if (!data->map.map)
+		return (ERROR);
+	i = -1;
+	while (map[++i] && !is_empty(map[i]))
+	{
+		trim_newline(map[i]);
+		data->map.map[i] = line_to_map(map[i], data->map.cols);
+		if (!data->map.map[i])
+			return (ERROR);
+	}
+	data->map.map[i] = NULL;
+	if (map[i] != NULL)
+	{
+		data->error_msg = "Error: Empty lines or extra content after map";
+		return (ERROR);
+	}
+	return (SUCCESS);
 }

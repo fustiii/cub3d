@@ -29,6 +29,7 @@ SRCS = src/main.c \
 	src/strings_operations.c \
 	src/print_data.c \
 	src/split.c \
+	src/split_whitespace.c \
 	src/free.c \
 	src/game_loop.c \
 	src/textures.c \

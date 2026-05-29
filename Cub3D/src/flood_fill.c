@@ -12,7 +12,6 @@
 
 #include "../inc/cub3d.h"
 
-
 static int	fill(char **map, int y, int x, int height)
 {
 	if (y < 0 || y >= height || x < 0 || map[y][x] == '\0' || map[y][x] == ' ')

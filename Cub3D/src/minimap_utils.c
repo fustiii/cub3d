@@ -45,11 +45,7 @@ void	update_player(t_game *data)
 	double	cx;
 	double	cy;
 	double	angle;
-	/*
-	if ((data->map.cols * TILE_SIZE) > MINIMAP_WIDTH
-		|| (data->map.rows * TILE_SIZE) > MINIMAP_HEIGHT)
-		return ;
-	*/
+
 	cx = data->player.pos_x * TILE_SIZE;
 	cy = data->player.pos_y * TILE_SIZE;
 	angle = atan2(data->player.dir_y, data->player.dir_x);
@@ -73,11 +69,6 @@ void	update_minimap(void *param)
 	uint32_t	y;
 
 	data = (t_game *)param;
-	/*
-	if ((data->map.cols * TILE_SIZE) > 1200
-		|| (data->map.rows * TILE_SIZE) > 1200)
-		return ;
-	*/
 	y = 0;
 	while (data->map.map[y])
 	{

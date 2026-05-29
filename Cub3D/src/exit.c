@@ -12,6 +12,15 @@
 
 #include "../inc/cub3d.h"
 
+int	free_and_return(char **tokens, char **rgb, int status)
+{
+	if (rgb)
+		free_array(rgb);
+	if (tokens)
+		free_array(tokens);
+	return (status);
+}
+
 void	exit_mlx(t_mlx *mlx)
 {
 	int	i;
